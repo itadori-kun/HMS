@@ -48,7 +48,6 @@ app.route('/create').post(async (req, res) => {
 
 app
   .route('/:id')
-
   // update employee info in the employee collection in the database
 
   .put(async (req, res) => {

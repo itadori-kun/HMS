@@ -5,9 +5,10 @@ const AdminSchema = mongoose.Schema({
   phone: [{ type: String, required: true }],
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  address: { type: String, required: true },
   roles: {
-    super_admin: { type: String, default: 'admin' },
-    admin: { type: String }
+    super_admin: { type: String },
+    admin: { type: String, default: 'admin' }
   }
 })
 

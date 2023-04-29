@@ -20,6 +20,7 @@ app.route('/create').post(async (req, res) => {
   if (!req?.body) {
     return res.status(400).json({ msg: 'Cannot create Admin' })
   }
+  // console.log(req.body)
   try {
     const admin = new Admin({
       first_name: req.body.first_name,
@@ -27,16 +28,15 @@ app.route('/create').post(async (req, res) => {
       phone: req.body.phone,
       email: req.body.email,
       password: req.body.password,
-      roles: req.body.roles.admin
-    })
+      address: req.body.address
+    } )
     const new_admin = await admin.save()
     res.status(201).json({ msg: 'Info created successfully', data: new_admin })
   } catch (err) {
     console.error(err)
     res.status(500).json({ err: 'Failed to create new Admin' })
   }
-})
-
+} )
 // Single admin route
 
 app
@@ -93,6 +93,6 @@ app
       console.error(err)
       res.status(500).json({ err: 'Failed to delete admin info' })
     }
-  } )
-  
+  })
+
 module.exports = app
