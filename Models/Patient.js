@@ -9,16 +9,16 @@ const PatientSchema = new Schema(
     avatar: { type: string },
     gender: { type: string, required: true },
     d_o_b: { type: string, required: true },
-    phone: {
-      primary_contact: { type: string, required: true },
-      secondary_contact: { type: string }
-    },
-    email: { type: string },
-    address: { type: string },
-    occupation: { type: string },
+    phone: [{ type: string, required: true }],
+    email: { type: string, unique: true, required: true },
+    address: { type: string, required: true },
+    occupation: { type: string, required: true },
     type_of_patient: { type: string },
     vitals: {
-      blood_group: { type: string },
+      blood_group: {
+        type: string,
+        enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+      },
       blood_pressure: { type: string },
       weight: { type: string },
       height: { type: string }
@@ -28,10 +28,7 @@ const PatientSchema = new Schema(
     emergency_contact: {
       first_name: { type: string, required: true },
       last_name: { type: string, required: true },
-      phone: {
-        primary_contact: { type: string, required: true },
-        secondary_contact: { type: string }
-      },
+      phone: [{ type: string, required: true }],
       email: { type: string }
     },
     bed_id: { type: mongoose.schema.Types.ObjectId, ref: 'beds' }
