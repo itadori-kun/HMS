@@ -5,7 +5,7 @@ const EmployeeSchema = new Schema({
   first_name: { type: String, required: true },
   last_name: { type: String, required: true },
   avatar: { type: String },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   phone: [{ type: String, required: true }],
   address: { type: String, required: true },
@@ -16,13 +16,13 @@ const EmployeeSchema = new Schema({
   },
   staff_type: { type: String, required: true, enum: ['permanent', 'contract'] },
   role: { type: String, required: true },
-  branch: { type: Schema.Types.ObjectId, ref: 'branches', required: true },
+  branch: { type: String, ref: 'branches', required: true },
   department: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'departments',
     required: true
   }
-})
+} )
 
 const Employee = mongoose.model('employees', EmployeeSchema)
 module.exports = Employee
