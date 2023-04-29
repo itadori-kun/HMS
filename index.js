@@ -1,12 +1,12 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const mongoose = require( 'mongoose' )
+const mongoose = require('mongoose')
 // Port in Use
 const PORT = 3001
 
 // Setting up the Mongodb connection
-const DBConnection = require( './config/DBConnection' )
+const DBConnection = require('./config/DBConnection')
 
 // calling the DATABASE
 DBConnection()
@@ -15,7 +15,10 @@ DBConnection()
 app.use(express.urlencoded({ extended: true }))
 
 // built in middleware for json
-app.use( express.json() )
+app.use(express.json())
+
+// routes
+app.use('/employee', require('./routes/Employee'))
 
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')
