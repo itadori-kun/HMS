@@ -4,12 +4,12 @@ const Schema=mongoose.Schema
 const WardSchema=mongoose.Schema({
 
    
-	name:{type:String},
+	name:{type:String,required:true},
 	type  :{
-        type:String
+        type:String,required:true
     },
 	branch_id:{
-        type:Schema.Types.ObjectId,ref:"branch"
+        type:Schema.Types.ObjectId,ref:"branches",,required:true
     },
 	total_bed:{
         type:Number
@@ -17,5 +17,5 @@ const WardSchema=mongoose.Schema({
 
 })
 
-const Ward=mongoose.model('Ward',WardSchema)
+const Ward=mongoose.model('wards',WardSchema)
 module.exports=Ward

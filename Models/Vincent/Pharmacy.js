@@ -3,16 +3,16 @@ const Schema=mongoose.Schema
 
 const PhamarcySchema=({
     name:{
-        type:String
+        type:String,required:true
     },
     phone:{
-       type:String 
+       type:String
     },
     address:{
         type:String
     },
     emp_id:[{
-        type:Schema.Types.ObjectId,ref:"employee"
+        type:Schema.Types.ObjectId,ref:"employees"
     }],
     drug_id:[{type:Schema.Types.ObjectId,ref:"drugs"}]
 
@@ -22,5 +22,5 @@ const PhamarcySchema=({
             
 	
 	
-            const Phamarcy=mongoose.model("Pharmacy",PhamarcySchema)
+            const Phamarcy=mongoose.model("Pharmacies",PhamarcySchema)
              module.exports=Phamarcy

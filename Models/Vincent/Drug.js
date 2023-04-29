@@ -3,17 +3,17 @@ const Schema=mongoose.Schema
 
 const DrugSchema=mongoose.Schema({
     
-    name:{type:String} ,
+    name:{type:String,required:true} ,
 
-    category:{type:String},      
-    status  :{type:String},                
-    brand   :{type:String},                   
-   quantity :{type:Number},              
-   price :{type:Number},                        
-   pharmacy_id :{type:Schema.Types.ObjectId,ref:"pharmacy"},   
-   branch_id:{type:Schema.Types.ObjectId,ref:"branch"}            
+    category:{type:String,required:true},      
+    status  :{type:String,required:true},                
+    brand   :{type:String,required:true},                   
+   quantity :{type:Number,required:true},              
+   price :{type:Number,required:true},                        
+   pharmacy_id :{type:Schema.Types.ObjectId,ref:"pharmacies",required:true},   
+   branch_id:{type:Schema.Types.ObjectId,ref:"branches",required:true}            
 
 })
 
-const Drug=mongoose.model('Drug',DrugSchema)
+const Drug=mongoose.model('drugs',DrugSchema)
 module.exports=Drug
