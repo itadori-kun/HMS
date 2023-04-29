@@ -34,7 +34,7 @@ const PatientSchema = new Schema(
       },
       email: { type: string }
     },
-    bed_id: { type: mongoose.schema.Types.ObjectId, ref: 'Bed' }
+    bed_id: { type: mongoose.schema.Types.ObjectId, ref: 'beds' }
   },
   { timestamps: true }
 )
@@ -43,7 +43,7 @@ const PatientSchema = new Schema(
 PatientSchema.pre('save', function (next) {
   const doc = this
   if (doc.isNew) {
-    mongoose.model('Patient', PatientSchema).countDocuments((err, count) => {
+    mongoose.model('patients', PatientSchema).countDocuments((err, count) => {
       if (err) {
         return next(err)
       }
@@ -55,6 +55,6 @@ PatientSchema.pre('save', function (next) {
   }
 })
 
-const Patient = mongoose.model('Patient', PatientSchema)
+const Patient = mongoose.model('patients', PatientSchema)
 
 module.exports = Patient
