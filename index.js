@@ -4,7 +4,6 @@ const app = express()
 const mongoose = require('mongoose')
 // Port in Use
 const PORT = 3001
-const hospital = require('./routes/Hospital')
 
 // Setting up the Mongodb connection
 const DBConnection = require('./config/DBConnection')
@@ -20,9 +19,11 @@ app.use(express.json())
 
 // routes
 app.use('/employee', require('./routes/Employee'))
-app.use('/hospital', hospital)
+app.use('/hospital', require('./routes/Hospital'))
 app.use('/branch', require('./routes/Branch'))
 app.use('/department', require('./routes/Department'))
+app.use('/admin', require('./routes/Admin'))
+
 
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')
