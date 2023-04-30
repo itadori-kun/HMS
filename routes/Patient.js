@@ -106,7 +106,7 @@ app
       if (!patient) {
         return res.status(400).json({ msg: 'Patient not found' })
       }
-      const result = await Patient.deleteOne()
+      const result = await patient.deleteOne()
       res
         .status(200)
         .json({ msg: 'Patient deleted successfully', data: result })

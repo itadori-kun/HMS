@@ -94,7 +94,7 @@ app
       if (!admin) {
         return res.status(400).json({ msg: 'Admin not found' })
       }
-      const result = await Admin.deleteOne()
+      const result = await admin.deleteOne()
       res.status(200).json({ msg: 'Admin deleted successfully', data: result })
     } catch (err) {
       console.error(err)
