@@ -23,4 +23,11 @@ res.json({msg:"hospital created successfully", code:201, hospital})
   })
 })
 
+.put(async(req, res)=>{
+
+})
+
+.delete(async(req, res)=>{
+  
+})
 module.exports = app
