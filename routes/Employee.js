@@ -54,6 +54,10 @@ app
     if (!req?.params?.id) {
       return res.status(400).json({ msg: 'Bad request sent' })
     }
+    // Handle error incase wrong id is passed
+    const employee = await Employee.findOne({ _id: req?.params?.id }).exec()
+    if (!employee) return res.status(400).json({ msg: 'Employee not found' })
+
     try {
       const update_employee = await Employee.findOneAndUpdate(
 

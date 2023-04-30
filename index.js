@@ -23,6 +23,13 @@ app.use('/hospital', require('./routes/Hospital'))
 app.use('/branch', require('./routes/Branch'))
 app.use('/department', require('./routes/Department'))
 app.use('/admin', require('./routes/Admin'))
+app.use('/patient', require('./routes/Patient'))
+app.use(
+  '/register',
+  require('./routes/UserRegister'),
+  require('./routes/EmployeeRegister')
+)
+app.use('/auth', require('./routes/EmployeeAuth'), require('./routes/UserAuth'))
 
 
 mongoose.connection.once('open', function () {
