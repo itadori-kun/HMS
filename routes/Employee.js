@@ -104,7 +104,7 @@ app
       if (!employee) {
         return res.status(400).json({ msg: 'Employee not found' })
       }
-      const result = await Employee.deleteOne()
+      const result = await employee.deleteOne()
       res
         .status(200)
         .json({ msg: 'Employee deleted successfully', data: result })
