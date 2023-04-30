@@ -4,6 +4,7 @@ const hospitalModel = require('../Models/Hospital');
 const Hospital = require('../Models/Hospital');
 
 app.route('/').post(async(req, res)=>{
+  try{
   const hospital = new hospitalModel(req.body)
   if(!hospital) return res.sendStatus(404).json({msg:"invalid hospital"})
 const duplicate = await hospitalModel.findOne({email: hospital.email})
@@ -11,9 +12,14 @@ if(duplicate) return res.sendStatus(404).json({msg:"hospital already exists"})
 
 await hospital.save()
 res.json({msg:"hospital created successfully", code:201, hospital})
+  }
+  catch(err){
+    res.status(500).send(err)
+  }
 })
 
 app.route('/').get(async(req, res)=>{
+  try{
   const hospital = await hospitalModel.find()
   if(!hospital) return res.sendStatus(404).json({msg:"hospital not found"})
   res.json({
@@ -21,6 +27,10 @@ app.route('/').get(async(req, res)=>{
     msg:"all hospital",
     hospital
   })
+}
+catch(err){
+  res.status(500).send(err)
+}
 })
 
 app.route('/:id')

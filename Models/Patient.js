@@ -3,20 +3,20 @@ const Schema = mongoose.Schema
 
 const PatientSchema = new Schema(
   {
-    card_no: { type: number, unique: true, required: true },
-    first_name: { type: string, required: true },
-    last_name: { type: string, required: true },
-    avatar: { type: string },
-    gender: { type: string, required: true },
-    d_o_b: { type: string, required: true },
+    card_no: { type: Number, unique: true, required: true },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    avatar: { type: String },
+    gender: { type: String, required: true },
+    d_o_b: { type: String, required: true },
     phone: {
-      primary_contact: { type: string, required: true },
-      secondary_contact: { type: string }
+      primary_contact: { type: String, required: true },
+      secondary_contact: { type: String }
     },
-    email: { type: string },
-    address: { type: string },
-    occupation: { type: string },
-    type_of_patient: { type: string },
+    email: { type: String },
+    address: { type: String },
+    occupation: { type: String },
+    type_of_patient: { type: String },
     vitals: {
       blood_group: {
         type: String,
