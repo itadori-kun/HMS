@@ -29,14 +29,14 @@ app.route('/create').post(async (req, res) => {
       email: req.body.email,
       password: req.body.password,
       address: req.body.address
-    } )
+    })
     const new_admin = await admin.save()
     res.status(201).json({ msg: 'Info created successfully', data: new_admin })
   } catch (err) {
     console.error(err)
     res.status(500).json({ err: 'Failed to create new Admin' })
   }
-} )
+})
 // Single admin route
 
 app
@@ -63,6 +63,10 @@ app
     if (!req?.params?.id) {
       return res.status(400).json({ msg: 'Failed request' })
     }
+    // Handle error incase wrong id is passed
+    const admin = await Admin.findOne({ _id: req?.params?.id }).exec()
+    if (!admin) return res.status(400).json({ msg: 'Admin not found' })
+
     try {
       const update_admin = await Admin.findOneAndUpdate(
         { _id: req.params.id },
