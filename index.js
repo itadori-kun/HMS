@@ -1,12 +1,13 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
+const mongoose = require( 'mongoose' )
 // Port in Use
 const PORT = 3001
+const hospital = require('./routes/Hospital')
 
 // Setting up the Mongodb connection
-const DBConnection = require('./config/DBConnection')
+const DBConnection = require( './config/DBConnection' )
 
 // calling the DATABASE
 DBConnection()
@@ -27,6 +28,10 @@ app.use(
   require('./routes/EmployeeRegister')
 )
 app.use('/auth', require('./routes/EmployeeAuth'), require('./routes/UserAuth'))
+app.use('/hospital', hospital)
+app.use('/branch', require('./routes/Branch'))
+app.use('/department', require('./routes/Department'))
+
 
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')

@@ -5,7 +5,7 @@ const hospitalSchema = mongoose.Schema({
   email:{type:String, required :true},
   cac_no:{type:String},
   organization:{type:String, required:true},
-  pharmacy:[{type:String, ref:'pharmacies', required:true}],
+  pharmacy:[{type:String, ref:'pharmacies'}],
   prefix:{type:String}
 })
 
