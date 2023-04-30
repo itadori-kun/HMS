@@ -30,6 +30,9 @@ app.use(
   require('./routes/EmployeeRegister')
 )
 app.use('/auth', require('./routes/EmployeeAuth'), require('./routes/UserAuth'))
+app.use('/hospital', hospital)
+app.use('/branch', require('./routes/Branch'))
+app.use('/department', require('./routes/Department'))
 
 
 mongoose.connection.once('open', function () {
