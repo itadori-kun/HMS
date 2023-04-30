@@ -56,9 +56,11 @@ app
     }
     try {
       const update_employee = await Employee.findOneAndUpdate(
+
         { _id: req.params.id },
         req.body,
         { new: true }
+
       )
       res
         .status(200)

@@ -19,7 +19,11 @@ app.use(express.json())
 
 // routes
 app.use('/employee', require('./routes/Employee'))
+app.use('/hospital', require('./routes/Hospital'))
+app.use('/branch', require('./routes/Branch'))
+app.use('/department', require('./routes/Department'))
 app.use('/admin', require('./routes/Admin'))
+
 
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')

@@ -3,10 +3,10 @@ const Schema = mongoose.Schema
 
 const BranchSchema = new Schema({
   name: { type: String, required: true },
-  hospital: { type: Schema.Types.ObjectId, ref: 'hospitals', required: true },
+  hospital: { type: String, ref: 'hospitals', required: true },
   address: { type: String, required: true },
   phone: [{ type: String, required: true }],
-  admin: { type: String, required: true },
+  admin_id: { type: String, required: true, ref:'admins'},
   staff_total: { type: String, required: true }
 })
 
