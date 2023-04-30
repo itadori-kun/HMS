@@ -4,7 +4,6 @@ const app = express()
 const mongoose = require( 'mongoose' )
 // Port in Use
 const PORT = 3001
-const hospital = require('./routes/Hospital')
 
 // Setting up the Mongodb connection
 const DBConnection = require( './config/DBConnection' )
