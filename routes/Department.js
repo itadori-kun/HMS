@@ -65,13 +65,12 @@ app.route('/:id')
 
 .get(async(req, res)=>{
   if(!req?.params?.id) return res.sendStatus(400).json({msg:"bad request"})
-  const department = await departmentModel.findOne({_id:req.params.id}).exec()
+  const department = await departmentModel.findOne({_id:req.params.id}).populate('branch_id').exec()
   if(!department) return res.sendStatus(404).json({msg:"no department found with id " + req.params.id})
-  const result  = await department.deleteOne()
   res.json({
     code:200,
-    msg:"department deleted successfully",
-    result
+    msg:"department found successfully",
+    department
   })
 })
 

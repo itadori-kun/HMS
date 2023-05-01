@@ -9,7 +9,7 @@ const PatientSchema = new Schema(
     avatar: { type: String },
     gender: { type: String },
     password: { type: String, required: true },
-    email: { type: String, unique: true, required: true },
+    email: { type: String, required: true },
     d_o_b: { type: Date },
     phone: [{ type: String }],
     address: { type: String },
@@ -31,7 +31,7 @@ const PatientSchema = new Schema(
       first_name: { type: String },
       last_name: { type: String },
       phone: [{ type: String }],
-      email: { type: String}
+      email: { type: String }
     }
   },
   { timestamps: true }

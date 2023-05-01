@@ -20,5 +20,5 @@ const PhamarcySchema = {
   drug_id: [{ type: Schema.Types.ObjectId, ref: 'drugs' }]
 }
 
-const Phamarcy = mongoose.model('Pharmacy', PhamarcySchema)
+const Phamarcy = mongoose.model('pharmacies', PhamarcySchema)
 module.exports = Phamarcy

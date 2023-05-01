@@ -8,7 +8,9 @@ const BranchSchema = new Schema({
   phone: [{ type: String, required: true }],
   admin_id: { type: String, required: true, ref:'admins'},
   staff_total: { type: String, required: true }
-})
+},
+{ timestamps: true }
+)
 
 const Branch = mongoose.model('branches', BranchSchema)
 module.exports = Branch
