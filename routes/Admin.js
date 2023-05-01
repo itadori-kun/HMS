@@ -1,5 +1,5 @@
 const express = require('express')
-const Admin = require('../models/Admin')
+const Admin = require('../Models/Admin')
 const app = express.Router()
 
 // get all admin route

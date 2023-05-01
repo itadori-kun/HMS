@@ -6,14 +6,14 @@ const DrugSchema=mongoose.Schema({
     name:{type:String} ,
 
     category:{type:String},      
-    status  :{type:String},                
+    status  :{type:String, enum:['available', 'unavailable']},                
     brand   :{type:String},                   
    quantity :{type:Number},              
-   price :{type:Number},                        
-   pharmacy_id :{type:Schema.Types.ObjectId,ref:"pharmacy"},   
-   branch_id:{type:Schema.Types.ObjectId,ref:"branch"}            
+   price :{type:String},                        
+   pharmacy_id :{type:String,ref:"pharmacies"},   
+   branch_id:{type:String,ref:"branches"}            
 
 })
 
-const Drug=mongoose.model('Drug',DrugSchema)
+const Drug =mongoose.model('drugs',DrugSchema)
 module.exports=Drug
