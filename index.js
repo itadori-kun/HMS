@@ -32,6 +32,7 @@ app.use('/branch', require('./routes/Branch'))
 app.use('/department', require('./routes/Department'))
 app.use('/ward',require('./routes/Ward'))
 app.use('/bed',require('./routes/Bed'))
+app.use('/drugs', require('./routes/Drugg'))
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`))

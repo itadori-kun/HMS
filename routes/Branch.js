@@ -29,7 +29,10 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async (req, res) => {
  try {
-  const branch = await branchModel.find().populate('hospital').exec()
+  const branch = await branchModel.find()
+  .populate('hospital')
+  .populate('admin_id')
+  .exec()
   res.json(branch)
  } catch (error) {
   console.log(error)
