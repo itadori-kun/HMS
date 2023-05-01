@@ -1,4 +1,4 @@
-
+<<<<<<< HEAD
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -25,6 +25,7 @@ const EmployeeSchema = new Schema({
 
 const Employee = mongoose.model('employees', EmployeeSchema)
 module.exports = Employee
+=======
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
