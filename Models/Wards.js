@@ -15,7 +15,8 @@ const WardSchema=mongoose.Schema({
         type:Number
     }
 
-})
+},
+{timestamps:true})
 
 const Ward=mongoose.model('wards',WardSchema)
 module.exports=Ward
