@@ -7,11 +7,10 @@ app.route('/').post(async (req, res) => {
   const hospital = new hospitalModel(req.body)
   if (!hospital) return res.sendStatus(404).json({ msg: 'invalid hospital' })
   const duplicate = await hospitalModel.findOne({ email: hospital.email })
-  if (duplicate)
-    return res.sendStatus(404).json({ msg: 'hospital already exists' })
+  if (duplicate) return res.sendStatus(404).json({ msg: 'hospital already exists' })
 
-  await hospital.save()
-  res.json({ msg: 'hospital created successfully', code: 201, hospital })
+   const new_hospital = await hospital.save()
+  res.json({ msg: 'hospital created successfully', code: 201, new_hospital })
   }
   catch(err){
     res.status(500).send(err)
