@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 
 const PatientSchema = new Schema(
   {
-    card_no: { type: Number, unique: true, default: 0000 },
-    first_name: { type: String },
-    last_name: { type: String },
+    card_no: { type: Number, unique: true, required: true },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
     avatar: { type: String },
     gender: { type: String },
     password: { type: String, required: true },
@@ -15,9 +15,6 @@ const PatientSchema = new Schema(
     address: { type: String },
     occupation: { type: String },
     type_of_patient: { type: String },
-    allergies: { type: String },
-    insurance: { type: String },
-    bed_id: { type: String, ref: 'beds' },
     vitals: {
       blood_group: {
         type: String,

@@ -4,13 +4,13 @@ const Schema=mongoose.Schema
 const BedSchema=mongoose.Schema({
    
 	ward_id:{
-        type:Schema.Types.ObjectId,ref:"wards"
+        type:Schema.Types.ObjectId,ref:"wards",required:true
     },
 branch_id:{
-    type:Schema.Types.ObjectId,ref:"branch"
+    type:Schema.Types.ObjectId,ref:"branches",required:true
 },
 	bed_no:{
-        type:Number
+        type:Number,required:true
     },
 
 	type :{
@@ -18,10 +18,10 @@ branch_id:{
     },
 
 	status :{
-        type:String
+        type:String,required:true
     }
 
 })
 
-const Bed=mongoose.model('Bed',BedSchema)
+const Bed=mongoose.model('beds',BedSchema)
 module.exports=Bed
