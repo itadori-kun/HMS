@@ -20,7 +20,7 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async(req,res) => {
   try {
-    const appointment = await appointmentModel.find().populate({path:'card_no', select:['card_no']}).exec()
+    const appointment = await appointmentModel.find().populate({path:"card_no", select:['card_no']}).exec()
   if(!appointment) return res.json({msg:"no appointment booked"})
   res.json({
     code:200,
@@ -52,7 +52,7 @@ app.route('/:id')
 .get(async(req,res)=>{
   if(!req?.params?.id) return res.sendStatus(400).json({msg:"bad request"})
   try {
-    const appointment = await appointmentModel.findOne({_id:req.params.id}).exec()
+    const appointment = await appointmentModel.findOne({_id:req.params.id}).populate({path:"card_no", select:['card_no']}).exec()
     if(!appointment) return res.sendStatus(404).json({msg:"not found"})
     res.json({
       code:200,
