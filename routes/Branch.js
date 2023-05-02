@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express.Router();
-const branchModel = require('../models/Branch')
+const branchModel = require('../Models/Branch')
 
 
 app.route('/').post(async(req, res)=>{
