@@ -35,7 +35,12 @@ app.route('/create').post(async(req,res)=>{
     })
     try{
         
-        
+        const duplicate =await Ward.findOne({"name":req.body.name})
+if(duplicate) return res.json({
+msg:"ward alaready exist,create ward using a new name",
+code:400
+})
+
         const ward=  new Ward(req.body)
         console.log(ward);
 await ward.save()
