@@ -20,8 +20,8 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async(req,res) => {
   try {
-    const appointment = await appointmentModel.find().exec()
-  if(!appointment) return res.sendStatus(400).json({msg:"no appointment booked"})
+    const appointment = await appointmentModel.find().populate({path:'card_no', select:['card_no']}).exec()
+  if(!appointment) return res.json({msg:"no appointment booked"})
   res.json({
     code:200,
     msg:"all appointments booked",
@@ -29,7 +29,7 @@ app.route('/').get(async(req,res) => {
   })
   } catch (error) {
     console.log(error)
-    res.sendStatus(500).json(error)
+   return res.json(error)
   }
 })
 
