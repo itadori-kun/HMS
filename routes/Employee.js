@@ -1,5 +1,5 @@
 const express = require('express')
-const Employee = require('../models/Employee')
+const Employee = require('../Models/Employee')
 const app = express.Router()
 
 // get all employee route
