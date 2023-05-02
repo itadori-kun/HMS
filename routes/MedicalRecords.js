@@ -1,5 +1,5 @@
 const express = require('express')
-const Medical_records = require('../models/Medical_Record')
+const Medical_records = require('../Models/Medical_Record')
 const app = express.Router()
 
 app.route('/').get(async (req, res) => {
