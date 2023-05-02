@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 
 const PatientSchema = new Schema(
   {
-    card_no: { type: Number, unique: true, required: true },
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
+    card_no: { type: Number, unique: true },
+    first_name: { type: String },
+    last_name: { type: String },
     avatar: { type: String },
     gender: { type: String },
     password: { type: String, required: true },
@@ -42,6 +42,12 @@ PatientSchema.pre('save', async function () {
     .exec()
   this.card_no = count + 1
 })
+
+PatientSchema.methods.toJSON = function () {
+  var obj = this.toObject()
+  delete obj.password
+  return obj
+}
 
 const Patient = mongoose.model('patients', PatientSchema)
 
