@@ -4,10 +4,7 @@ const app = express.Router()
 
 app.route('/').get(async (req, res) => {
   try {
-    const record = await Receipt.find()
-      .populate('card_no', ['card_no'])
-      .populate('doctor')
-      .populate('lab')
+    const record = await Receipt.find().populate('card_no', ['card_no'])
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
     console.error(err)
@@ -18,15 +15,6 @@ app.route('/').get(async (req, res) => {
 app.route('/create').post(async (req, res) => {
   if (!req?.body) {
     return res.status(400).json({ msg: 'Failed request' })
-  }
-  if (
-    !payment_analysis.dept ||
-    !payment_analysis.descp ||
-    !payment_analysis.amount ||
-    !payment_analysis.payment_mode ||
-    !payment_analysis.payment_status
-  ) {
-    return res.status(400).json({ msg: 'All fields required' })
   }
   try {
     const receipt = new Receipt({

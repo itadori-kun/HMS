@@ -38,6 +38,7 @@ app.use('/doctor', require('./routes/Doctor'))
 app.use('/nurse', require('./routes/Nurse'))
 app.use('/lab', require('./routes/Lab'))
 app.use('/record', require('./routes/MedicalRecords'))
+app.use('/receipt', require('./routes/Receipt'))
 app.use('/ward', require('./routes/Ward'))
 app.use( '/bed', require( './routes/Bed' ) )
 

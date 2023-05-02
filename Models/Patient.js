@@ -43,6 +43,12 @@ PatientSchema.pre('save', async function () {
   this.card_no = count + 1
 })
 
+PatientSchema.methods.toJSON = function () {
+  var obj = this.toObject()
+  delete obj.password
+  return obj
+}
+
 const Patient = mongoose.model('patients', PatientSchema)
 
 module.exports = Patient

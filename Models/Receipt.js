@@ -26,7 +26,7 @@ const ReceiptSchema = new Schema(
         }
       }
     ],
-    vat: { type: String, required: true },
+    vat: { type: Number, required: true },
     total_amount: { type: Number, required: true }
   },
   { timestamps: true }
