@@ -3,13 +3,7 @@ const app =express.Router()
 const LabReport=require('../Models/Lab_Reports')
 const multer=require('multer')
 const path = require('path')
-
-const cloudinary=require('cloudinary').v2
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key:process.env.API_KEY,
-    api_secret:process.env.API_SECRET,
-})
+const cloudinary=require('../utils/cloudinary')
 
 
 const storage=multer.diskStorage({
@@ -50,13 +44,19 @@ res.json({
 
 })
 
-app.route('/create',upload.single('attachment')).post(async(req,res)=>{
+app.route('/create').post(async(req,res)=>{
     if(!req.body)return res.json({msg:"body is missing"})
 try{
-let new_report= new LabReport(req.body)
-if(req.file){
-    new_report.attachment=req.file.path
-    console.log(req.file.path);
+    const attachment=req.body.attachment
+
+if(attachment){
+   const result= await cloudinary.uploader.upload(attachment,{
+    folder:uploads
+   })
+   let new_report= new LabReport({...req.body,attachment:{
+   public_id:result.public_id,
+   url:result.secure_url//secure url that comes from cloudinary after uploading my attchment
+   }})
 }
 
 await new_report.save()
@@ -129,7 +129,7 @@ catch(err){
 })
 
 
-app.route('/:id',upload.single('attachment')).post(async(req,res)=>{
+app.route('/:id',upload.single('attachment')).put(async(req,res)=>{
 
     if(!req.params.id) return res.json({
         code:400,
