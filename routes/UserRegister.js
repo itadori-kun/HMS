@@ -1,41 +1,12 @@
 const express = require('express')
-const Patient = require('../models/Patient')
+const Patient = require('../Models/Patient')
 const bcrypt = require('bcrypt')
 const app = express.Router()
 
 app.route('/user').post(async (req, res) => {
-  const {
-    // first_name,
-    // last_name,
-    // avatar,
-    password,
-    email
-    // gender,
-    // d_o_b,
-    // address,
-    // phone,
-    // occupation,
-    // allergies,
-    // insurance,
-    // emergency_contact
-  } = req.body
+  const { password, email } = req.body
 
-  if (
-    // !first_name ||
-    // !last_name ||
-    // !avatar ||
-    !email ||
-    !password
-    // ||
-    // !gender ||
-    // !d_o_b ||
-    // !phone ||
-    // !address ||
-    // !occupation ||
-    // !allergies ||
-    // !insurance ||
-    // !emergency_contact
-  )
+  if (!email || !password)
     return res.status(400).json({ msg: 'All info are required' })
   // check for duplicates in database
   const check_duplicates = await Patient.findOne(req.body).exec()
@@ -72,6 +43,5 @@ app.route('/user').post(async (req, res) => {
     res.status(500).json({ msg: 'Failed to create new patient' })
   }
 })
-
 
 module.exports = app

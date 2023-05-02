@@ -1,161 +1,144 @@
-const express=require('express')
-const app=express.Router()
-const Ward=require('../Models/Wards')
+const express = require('express')
+const app = express.Router()
+const Ward = require('../Models/Wards')
 
-
-
-app.route('/').get(async(req,res)=>{
-    try{
-        const get_all_wards= await Ward.find()
-        if(!get_all_wards) return res.json({
-            code:404,
-            msg:"wards do not exist"
-        })
-        res.json({
-         msg:"success",
-            data:get_all_wards,
-            code:200
-        })
-    }
-
-catch(err){
-    res.status(500).send(err);
-    console.log(err);
+app.route('/').get(async (req, res) => {
+  try {
+    const get_all_wards = await Ward.find()
+    if (!get_all_wards)
+      return res.json({
+        code: 404,
+        msg: 'wards do not exist'
+      })
     res.json({
-        msg:"failed to retrieve ward"
+      msg: 'success',
+      data: get_all_wards,
+      code: 200
     })
-}
-
-})
-
-app.route('/create').post(async(req,res)=>{
-    if(!req.body) return res.json({
-        code:400,
-        msg:"request body is missing or incomplete"
-    })
-    try{
-        
-        const duplicate =await Ward.findOne({"name":req.body.name})
-if(duplicate) return res.json({
-msg:"ward alaready exist,create ward using a new name",
-code:400
-})
-
-        const ward=  new Ward(req.body)
-        console.log(ward);
-await ward.save()
-res.json({
-    msg:"successful",
-    data:ward,
-    code:200
-})
-    }
-    catch(err){
-        res.status(500).send(err)
-        console.log(err);
-        res.json({
-            msg:"failed to create new ward"
-        })
-    }
-    
-})
-
-app.route('/:id')
-.get(async(req,res)=>{
-    if(!req.params.id) return res.json({
-        code:400,
-        msg:"request body is missing or incomplete"
-    })
-
-    try{
-        let ward=await Ward.findById(req.params.id)
-if(!ward) return res.json({
-    msg:"ward does not exist",
-    code:404
-})
-
-res.json({
-    msg:"successful",
-    data:ward,
-    code:200
-})
-    }
-    catch(err){
-      
-        res.status(500).send(err)
-        console.log(err);
-        res.json({
-            msg:"failed to retrieve ward"
-        })
-    }
-})
-
-.put(async(req,res)=>{
-    if(!req.params.id) return res.json({
-        code:400,
-        msg:"request body is missing or incomplete"
-    })
-try{
-
-const ward= await Ward.findById(req.params.id)
-if(!ward)return res.send("ward does not exist")
-let update_ward={...ward._doc ,...req.body}
-ward.overwrite(update_ward)
-
-await ward.save()
-res.json({
-    msg:"successful",
-    data:ward,
-    code:"200"
-})
-}
-catch(err){
+  } catch (err) {
     res.status(500).send(err)
-    console.log(err);
+    console.log(err)
     res.json({
-        msg:"failed to update ward "
+      msg: 'failed to retrieve ward'
     })
-}
-
+  }
 })
 
-.delete(async(req,res)=>{
-    if(!req.params.id) return res.json({
-        msg:"request body is missing or incomplete"
+app.route('/create').post(async (req, res) => {
+  if (!req.body)
+    return res.json({
+      code: 400,
+      msg: 'request body is missing or incomplete'
     })
+  try {
+    const duplicate = await Ward.findOne({ name: req.body.name })
+    if (duplicate)
+      return res.json({
+        msg: 'ward alaready exist,create ward using a new name',
+        code: 400
+      })
 
-    try{
-let ward= await Ward.findById(req.params.id)
-if(!ward)return res.json({
-msg:"ward does not exist",
-code:404
+    const ward = new Ward(req.body)
+    await ward.save()
+    res.json({
+      msg: 'successful',
+      data: ward,
+      code: 200
+    })
+  } catch (err) {
+    res.status(500).send(err)
+    console.log(err)
+    res.json({
+      msg: 'failed to create new ward'
+    })
+  }
 })
 
- await Ward.findByIdAndDelete(req.params.id)
- res.json({
-    msg:"ward deleted",
-    code:200
-})
-    }
-    catch(err){
-        res.status(500).send(err)
-        res.json({
-            msg:"failed to delete ward "
+app
+  .route('/:id')
+  .get(async (req, res) => {
+    if (!req.params.id)
+      return res.json({
+        code: 400,
+        msg: 'request body is missing or incomplete'
+      })
+
+    try {
+      let ward = await Ward.findById(req.params.id)
+      if (!ward)
+        return res.json({
+          msg: 'ward does not exist',
+          code: 404
         })
-     
-        console.log(err);
 
+      res.json({
+        msg: 'successful',
+        data: ward,
+        code: 200
+      })
+    } catch (err) {
+      res.status(500).send(err)
+      console.log(err)
+      res.json({
+        msg: 'failed to retrieve ward'
+      })
     }
+  })
 
-})
+  .put(async (req, res) => {
+    if (!req.params.id)
+      return res.json({
+        code: 400,
+        msg: 'request body is missing or incomplete'
+      })
+    try {
+      const ward = await Ward.findById(req.params.id)
+      if (!ward) return res.send('ward does not exist')
+      let update_ward = { ...ward._doc, ...req.body }
+      ward.overwrite(update_ward)
 
+      await ward.save()
+      res.json({
+        msg: 'successful',
+        data: ward,
+        code: '200'
+      })
+    } catch (err) {
+      res.status(500).send(err)
+      console.log(err)
+      res.json({
+        msg: 'failed to update ward '
+      })
+    }
+  })
 
+  .delete(async (req, res) => {
+    if (!req.params.id)
+      return res.json({
+        msg: 'request body is missing or incomplete'
+      })
 
+    try {
+      let ward = await Ward.findById(req.params.id)
+      if (!ward)
+        return res.json({
+          msg: 'ward does not exist',
+          code: 404
+        })
 
+      await Ward.findByIdAndDelete(req.params.id)
+      res.json({
+        msg: 'ward deleted',
+        code: 200
+      })
+    } catch (err) {
+      res.status(500).send(err)
+      res.json({
+        msg: 'failed to delete ward '
+      })
 
+      console.log(err)
+    }
+  })
 
-
-
-module.exports=app
-
-
+module.exports = app

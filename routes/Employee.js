@@ -1,5 +1,5 @@
 const express = require('express')
-const Employee = require('../models/Employee')
+const Employee = require('../Models/Employee')
 const app = express.Router()
 
 // get all employee route
@@ -14,35 +14,36 @@ app.route('/').get(async (req, res) => {
 
 // create single employee route
 // create a new employee to the employee collection in the database
-app.route('/create').post(async (req, res) => {
-  if (!req?.body) {
-    return res.status(400).json({ msg: 'No content for creating employee' })
-  }
-  try {
-    const employee = new Employee({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      avatar: req.body.avatar,
-      email: req.body.email,
-      password: req.body.password,
-      phone: req.body.phone,
-      address: req.body.address,
-      status: req.body.status,
-      branch: req.body.branch,
-      department: req.body.department,
-      role: req.body.role,
-      staff_type: req.body.staff_type
-    })
-    const new_employee = await employee.save()
-    res.status(201).json({
-      msg: 'New employee info created successfully',
-      data: new_employee
-    })
-  } catch (err) {
-    console.error(err)
-    res.status(500).json({ err: 'Failed to create new Employee' })
-  }
-})
+// app.route('/create').post(async (req, res) => {
+//   if (!req?.body) {
+//     return res.status(400).json({ msg: 'No content for creating employee' })
+//   }
+//   try {
+//     const employee = new Employee({
+//       first_name: req.body.first_name,
+//       last_name: req.body.last_name,
+//       avatar: req.body.avatar,
+//       gender: req.body.gender,
+//       email: req.body.email,
+//       password: req.body.password,
+//       phone: req.body.phone,
+//       address: req.body.address,
+//       status: req.body.status,
+//       branch: req.body.branch,
+//       department: req.body.department,
+//       role: req.body.role,
+//       staff_type: req.body.staff_type
+//     })
+//     const new_employee = await employee.save()
+//     res.status(201).json({
+//       msg: 'New employee info created successfully',
+//       data: new_employee
+//     })
+//   } catch (err) {
+//     console.error(err)
+//     res.status(500).json({ err: 'Failed to create new Employee' })
+//   }
+// })
 
 // Single employee route
 

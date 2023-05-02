@@ -29,7 +29,10 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async (req, res) => {
  try {
-  const branch = await branchModel.find().populate('hospital').exec()
+  const branch = await branchModel.find()
+  .populate('hospital')
+  .populate('admin_id')
+  .exec()
   res.json(branch)
  } catch (error) {
   console.log(error)
@@ -54,7 +57,10 @@ app.route('/:id')
 .get(async(req,res) => {
   if(!req?.params?.id) return res.sendStatus(400).json({msg:"bad request"})
   try {
-    const branch = await branchModel.findOne({_id:req.params.id}).populate('hospital').exec()
+    const branch = await branchModel.findOne({_id:req.params.id})
+    .populate('hospital')
+    .populate('admin_id')
+    .exec()
   res.json(
     {
       code:200,
