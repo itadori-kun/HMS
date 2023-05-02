@@ -3,14 +3,14 @@ const Schema = mongoose.Schema
 
 const MedicalRecordSchema = new Schema(
   {
-    card_no: { types: Schema.Types.ObjectId, ref: 'patients', required: true },
+    card_no: { type: String, ref: 'patients', required:true },
     diagnosis: { type: String, required: true },
     symptoms: { type: String, required: true },
     treatments: { type: String, required: true },
     follow_up_info: { type: String, required: true },
-    medications: [{ types: Schema.Types.ObjectId, ref: 'medications' }],
-    lab: { types: Schema.Types.ObjectId, ref: 'labs' },
-    doctor: { types: Schema.Types.ObjectId, ref: 'doctors' }
+    medications: [{ type: String, ref: 'medications' }],
+    lab: { type: String, ref: 'labs' },
+    doctor: { type: String, ref: 'doctors', required: true }
   },
   { timestamps: true }
 )

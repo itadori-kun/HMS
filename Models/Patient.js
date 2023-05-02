@@ -3,9 +3,9 @@ const Schema = mongoose.Schema
 
 const PatientSchema = new Schema(
   {
-    card_no: { type: Number, unique: true, required: true },
-    first_name: { type: String, required: true },
-    last_name: { type: String, required: true },
+    card_no: { type: Number, unique: true },
+    first_name: { type: String },
+    last_name: { type: String },
     avatar: { type: String },
     gender: { type: String },
     password: { type: String, required: true },
