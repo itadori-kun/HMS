@@ -26,6 +26,9 @@ app.use(
   require('./routes/UserRegister'),
   require('./routes/EmployeeRegister')
 )
+app.get('/', (req,res)=>{
+  res.send("Welcome to GAVO HMS")
+})
 app.use('/auth', require('./routes/EmployeeAuth'), require('./routes/UserAuth'))
 app.use('/hospital', require('./routes/Hospital'))
 app.use(
@@ -41,8 +44,9 @@ app.use('/record', require('./routes/MedicalRecords'))
 app.use('/receipt', require('./routes/Receipt'))
 app.use('/ward', require('./routes/Ward'))
 app.use( '/bed', require( './routes/Bed' ) )
-
-
+app.use('/drugs', require('./routes/Drugg'))
+app.use('/appointment', require('./routes/Appointment'))
+app.use('/medication', require('./routes/Medications'))
 // Mongoose connection
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')

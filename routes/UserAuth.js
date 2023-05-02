@@ -1,5 +1,5 @@
 const express = require('express')
-const Patient = require('../models/Patient')
+const Patient = require('../Models/Patient')
 const bcrypt = require('bcrypt')
 const app = express.Router()
 

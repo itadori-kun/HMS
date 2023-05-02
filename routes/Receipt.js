@@ -1,5 +1,5 @@
 const express = require('express')
-const Receipt = require('../models/Receipt')
+const Receipt = require('../Models/Receipt')
 const app = express.Router()
 
 app.route('/').get(async (req, res) => {

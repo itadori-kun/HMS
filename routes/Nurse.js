@@ -1,7 +1,5 @@
 const express = require('express')
-const Nurse = require('../models/Nurse')
-// const Employee = require('../models/Employee')
-// const Employee = require('../models/Employee')
+const Nurse = require('../Models/Nurse')
 const app = express.Router()
 
 app

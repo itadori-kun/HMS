@@ -1,5 +1,5 @@
 const express = require('express')
-const Lab = require('../models/Lab')
+const Lab = require('../Models/Lab')
 const app = express.Router()
 
 // Get all labs
