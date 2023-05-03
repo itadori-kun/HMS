@@ -6,7 +6,11 @@ app.route('/').get(async (req, res) => {
   try {
     const record = await Medical_records.find()
       .populate('card_no', ['card_no'])
-      .populate('doctor')
+      .populate({
+        path: 'doctor',
+        populate: { path: 'emp_id', select: ['first_name', 'last_name'] },
+        select: 'speciality'
+      })
       .populate('lab')
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
@@ -77,7 +81,7 @@ app
   })
 
   .delete(async (req, res) => {
-    if ((!req.params.id)) {
+    if (!req.params.id) {
       return res.status(400).json({ msg: 'Invalid request' })
     }
     try {
