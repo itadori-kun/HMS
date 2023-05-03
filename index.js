@@ -38,11 +38,7 @@ app.use(
   require('./routes/BranchEmployees')
 )
 app.use('/department', require('./routes/Department'))
-
-
-
-app.use('/labReport',require('./routes/LabReport'))
-
+app.use('/labReport', require('./routes/LabReport'))
 app.use('/doctor', require('./routes/Doctor'))
 app.use('/nurse', require('./routes/Nurse'))
 app.use('/lab', require('./routes/Lab'))
@@ -52,9 +48,9 @@ app.use('/ward', require('./routes/Ward'))
 app.use('/bed', require('./routes/Bed'))
 app.use('/drugs', require('./routes/Drug'))
 app.use('/appointment', require('./routes/Appointment'))
-app.use('pharmacy',require('./routes/Pharmacy'))
+app.use('pharmacy', require('./routes/Pharmacy'))
 app.use('/medication', require('./routes/Medications'))
-app.use('/forgotPassword',require('./routes/ForgotPsswd'))
+app.use('/forgotPassword', require('./routes/ForgotPsswd'))
 // Mongoose connection
 
 mongoose.connection.once('open', function () {

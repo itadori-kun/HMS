@@ -4,13 +4,44 @@ const app = express.Router()
 
 // get all employee route
 // get all employee from the employee collection in the database
+// app.route('/').get(async (req, res) => {
+//   const get_all_employees = await Employee.find().populate('branch', [
+//     'name',
+//     'address'
+//   ])
+//   if (!get_all_employees) {
+//     res.status(204).json({ msg: 'No employee info found' })
+//   }
+//   res.status(200).json({ msg: 'Request successful', data: get_all_employees })
+// } )
 app.route('/').get(async (req, res) => {
-  const get_all_employees = await Employee.find()
-  if (!get_all_employees) {
-    res.status(204).json({ msg: 'No employee info found' })
+  let filter = {}
+  let { role, hospital,branch, department, status, staff_type } = req.query
+  console.log(req.query)
+  // if (_id.match(/^[0-9a-fA-F]{24}$/)) {
+
+  //   console.log(filter, role)
+  // }
+  if (role) filter.role = role
+  if (hospital) filter.hospital = hospital
+  if (branch) filter.branch = branch
+  if (department) filter.department = department
+  if (status) filter.status = status
+  if (staff_type) filter.staff_type = staff_type
+
+  try {
+    let employees = await Employee.find( filter )
+    if (!employees) {
+      res.status(400).json({ msg: 'Request not found'})
+    } else if(employees) {
+      res.status(200).json({ msg: 'Request successful', data: employees  })
+    }
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ msg: 'Invalid search' })
   }
-  res.status(200).json({ msg: 'Request successful', data: get_all_employees })
 })
+
 
 // create single employee route
 // create a new employee to the employee collection in the database
@@ -81,7 +112,10 @@ app
       return res.status(400).json({ msg: 'Failed request' })
     }
     try {
-      const employee = await Employee.findOne({ _id: req.params.id }).exec()
+      const employee = await Employee.findOne({ _id: req.params.id }).populate(
+        'branch',
+        ['name', 'address']
+      )
       if (!employee) {
         return res.status(400).json({ msg: 'Employee not found' })
       }

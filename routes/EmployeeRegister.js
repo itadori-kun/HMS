@@ -6,17 +6,17 @@ const app = express.Router()
 app.route('/employee/create').post(async (req, res) => {
   const { password, email } = req.body
   if (
-    // !first_name ||
-    // !last_name ||
+    !req?.body?.first_name ||
+    !req?.body?.last_name ||
     !password ||
-    !email
-    // ||
-    // !phone ||
-    // !address ||
-    // !staff_type ||
-    // !role ||
-    // !branch ||
-    // !department
+    !email ||
+    !req?.body?.phone ||
+    !req?.body?.address ||
+    !req?.body?.staff_type ||
+    !req?.body?.role ||
+    !req?.body?.branch ||
+    !req?.body?.department ||
+    !req?.body?.hospital
   )
     return res.status(400).json({ msg: 'All info are required' })
   // check for duplicates in database
@@ -39,6 +39,7 @@ app.route('/employee/create').post(async (req, res) => {
       address: req.body.address,
       status: req.body.status,
       branch: req.body.branch,
+      hospital: req.body.hospital,
       department: req.body.department,
       role: req.body.role,
       staff_type: req.body.staff_type

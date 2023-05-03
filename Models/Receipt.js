@@ -3,12 +3,12 @@ const Schema = mongoose.Schema
 
 const ReceiptSchema = new Schema(
   {
-    card_no: { type: String, ref: 'patients', required: true },
+    card_no: { type: Schema.Types.ObjectId, ref: 'patients', required: true },
     due_date: { type: Date, required: true },
     payment_analysis: [
       {
         dept: {
-          type: String,
+          type: Schema.Types.ObjectId,
           ref: 'departments',
           required: true
         },

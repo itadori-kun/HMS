@@ -10,15 +10,16 @@ const EmployeeSchema = new Schema({
   password: { type: String, required: true },
   phone: [{ type: String, required: true }],
   address: { type: String, required: true },
+  hospital: { type: Schema.Types.ObjectId, ref: 'hospitals', required: true },
   status: {
     type: String,
     enum: ['available', 'leave', 'break']
   },
   staff_type: { type: String, required: true, enum: ['permanent', 'contract'] },
   role: { type: String, required: true },
-  branch: { type: String, ref: 'branches', required: true },
+  branch: { type: Schema.Types.ObjectId, ref: 'branches', required: true },
   department: {
-    type: String,
+    type: Schema.Types.ObjectId,
     ref: 'departments',
     required: true
   }
