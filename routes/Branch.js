@@ -31,8 +31,7 @@ app.route('/').get(async (req, res) => {
  try {
   const branch = await branchModel.find()
   .populate('hospital')
-  .populate('admin_id')
-  .exec()
+  .populate({path:"admin_id", select:["roles",'email','first_name','last_name']})
   res.json(branch)
  } catch (error) {
   console.log(error)
@@ -59,8 +58,7 @@ app.route('/:id')
   try {
     const branch = await branchModel.findOne({_id:req.params.id})
     .populate('hospital')
-    .populate('admin_id')
-    .exec()
+    .populate({path:"admin_id", select:["roles",'email','first_name','last_name']})
   res.json(
     {
       code:200,

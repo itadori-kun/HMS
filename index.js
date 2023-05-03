@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const cors=require('cors')
+const cors = require('cors')
 // Port in Use
 const PORT = 3001
 
@@ -13,10 +13,10 @@ const DBConnection = require('./config/DBConnection')
 DBConnection()
 
 // built in middleware to handle urlencoded form-dara
-app.use(express.urlencoded({ extended: true,limit:'100mb' }))
+app.use(express.urlencoded({ extended: true, limit: '100mb' }))
 
 // built in middleware for json
-app.use(express.json({limit:'100mb'}))
+app.use(express.json({ limit: '100mb' }))
 app.use(cors())
 // routes
 app.use('/employee', require('./routes/Employee'))
@@ -27,8 +27,8 @@ app.use(
   require('./routes/UserRegister'),
   require('./routes/EmployeeRegister')
 )
-app.get('/', (req,res)=>{
-  res.send("Welcome to GAVO HMS")
+app.get('/', (req, res) => {
+  res.send('Welcome to GAVO HMS')
 })
 app.use('/auth', require('./routes/EmployeeAuth'), require('./routes/UserAuth'))
 app.use('/hospital', require('./routes/Hospital'))
