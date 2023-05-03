@@ -14,7 +14,7 @@ const PatientSchema = new Schema(
     phone: [{ type: String, required: true }],
     address: { type: String, required: true },
     occupation: { type: String, required: true },
-    type_of_patient: { type: String, required: true },
+    type_of_patient: { type: String },
     vitals: {
       blood_group: {
         type: String,
