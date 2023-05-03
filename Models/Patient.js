@@ -4,17 +4,17 @@ const Schema = mongoose.Schema
 const PatientSchema = new Schema(
   {
     card_no: { type: Number, unique: true },
-    first_name: { type: String },
-    last_name: { type: String },
-    avatar: { type: String },
-    gender: { type: String },
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    avatar: { type: String, required: true },
+    gender: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
-    d_o_b: { type: Date },
-    phone: [{ type: String }],
-    address: { type: String },
-    occupation: { type: String },
-    type_of_patient: { type: String },
+    d_o_b: { type: Date, required: true },
+    phone: [{ type: String, required: true }],
+    address: { type: String, required: true },
+    occupation: { type: String, required: true },
+    type_of_patient: { type: String, required: true },
     vitals: {
       blood_group: {
         type: String,
