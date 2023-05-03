@@ -3,7 +3,7 @@ const Schema=mongoose.Schema
 
 const LabReportSchema=mongoose.Schema({	
 lab_id:{
-    type:Schema.Types.ObjectId,ref:"labs"
+    type:Schema.Types.ObjectId,ref:"labs",required:true
 },
 description:{
     type:String,required:true
@@ -17,7 +17,7 @@ patient_id:{
 
 	attachment :{
         type:String,
-        
+
         public_id:{
             type:String,
             required:true
