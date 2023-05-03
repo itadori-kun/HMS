@@ -29,6 +29,7 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async (req, res) => {
  try {
+  
   // enable pagination
   const pageSize = 1
   const page = Number(req.query.pageNumber) || 1;
