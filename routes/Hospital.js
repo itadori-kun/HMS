@@ -3,24 +3,24 @@ const app = express.Router()
 const hospitalModel = require('../Models/Hospital')
 
 app.route('/').post(async (req, res) => {
-  const hospital = req.body
-  if (!hospital) return res.sendStatus(404).json({  msg:"request body is missing or incomplete"})
-  try{
-
-    const duplicate = await hospitalModel.findOne({ "email": hospital.email})
-    if (duplicate) return res.json({ msg: 'hospital already exists',
-  code:404 })
-  
- 
- 
-  await hospital.save()
-  res.json({ msg: 'hospital created successfully',
-   code: 201, hospital })
-  }
-  catch(err){
-    res.status(500).send(err)
-    console.log(err);
-  }
+  if(!req.body) return res.json({msg:"bad request"})
+  const hospital = new hospitalModel({
+    name: req.body.name,
+    phone: req.body.phone,
+    email:req.body.email,
+    cac_no:req.body.cac_no,
+    organization: req.body.organization,
+    pharmacy:req.body.pharmacy,
+    prefix:req.body.prefix
+  })
+  const duplicate = await hospitalModel.findOne({email:req.body.email}).exec()
+  if(duplicate) return res.json("hospital already exists")
+  const new_hospital = await hospital.save()
+  res.json({
+    code:200,
+    msg:"hospital created successfully",
+    new_hospital
+  })
 })
 
 app.route('/').get(async (req, res) => {
