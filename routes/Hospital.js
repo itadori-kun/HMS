@@ -4,38 +4,37 @@ const hospitalModel = require('../Models/Hospital')
 
 app.route('/').post(async (req, res) => {
   const hospital = req.body
-  if (!hospital) return res.sendStatus(404).json({  msg:"request body is missing or incomplete"})
-  try{
+  if (!hospital)
+    return res
+      .sendStatus(404)
+      .json({ msg: 'request body is missing or incomplete' })
+  try {
+    const duplicate = await hospitalModel.findOne({ email: hospital.email })
+    if (duplicate)
+      return res.json({ msg: 'hospital already exists', code: 404 })
 
-    const duplicate = await hospitalModel.findOne({ "email": hospital.email})
-    if (duplicate) return res.json({ msg: 'hospital already exists',
-  code:404 })
-  
- 
- 
-  await hospital.save()
-  res.json({ msg: 'hospital created successfully',
-   code: 201, hospital })
-  }
-  catch(err){
+
+    await hospital.save()
+    res.json({ msg: 'hospital created successfully', code: 201, hospital })
+  } catch (err) {
     res.status(500).send(err)
-    console.log(err);
+    console.log(err)
   }
 })
 
 app.route('/').get(async (req, res) => {
-  try{
-  const hospital = await hospitalModel.find()
-  if (!hospital) return res.sendStatus(404).json({ msg: 'hospital not found' })
-  res.json({
-    code: 200,
-    msg: 'all hospital',
-    hospital
-  })
+  try {
+    const hospital = await hospitalModel.find()
+    if (!hospital)
+      return res.sendStatus(404).json({ msg: 'hospital not found' })
+    res.json({
+      code: 200,
+      msg: 'all hospital',
+      hospital
+    })
+  } catch (err) {
+    res.status(500).send(err)
   }
-  catch ( err ) {
-  res.status(500).send(err)
-}
 })
 
 app
