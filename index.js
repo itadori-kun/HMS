@@ -38,6 +38,11 @@ app.use(
   require('./routes/BranchEmployees')
 )
 app.use('/department', require('./routes/Department'))
+
+
+
+app.use('/labReport',require('./routes/LabReport'))
+
 app.use('/doctor', require('./routes/Doctor'))
 app.use('/nurse', require('./routes/Nurse'))
 app.use('/lab', require('./routes/Lab'))
@@ -49,6 +54,7 @@ app.use('/drugs', require('./routes/Drugg'))
 app.use('/appointment', require('./routes/Appointment'))
 app.use('/medication', require('./routes/Medications'))
 // Mongoose connection
+
 mongoose.connection.once('open', function () {
   console.log('connected to mongodb')
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`))
