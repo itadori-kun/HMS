@@ -14,7 +14,7 @@ app.route('/').post(async (req, res) => {
     prefix:req.body.prefix
   })
   const duplicate = await hospitalModel.findOne({email:req.body.email}).exec()
-  if(duplicate) return res.json("hospital already exists")
+  if(duplicate) return res.json({code:404, msg:"hospital already exists"})
   const new_hospital = await hospital.save()
   res.json({
     code:200,
