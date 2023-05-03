@@ -17,6 +17,10 @@ const PhamarcySchema = {
       ref: 'employee'
     }
   ],
+  branch_id:{
+    type: Schema.Types.ObjectId,
+    ref: 'branches'
+  },
   drug_id: [{ type: Schema.Types.ObjectId, ref: 'drugs' }]
 }
 

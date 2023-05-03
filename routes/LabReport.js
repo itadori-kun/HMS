@@ -107,16 +107,16 @@ app.route('/create').post(async(req,res)=>{
     // // const {lab_id,emp_id,description,patient_id,attachment}=req.body
     // console.log("request body",req.body);
     // console.log(req.body);
-   let imgurl= req.body.attachment._dirname
+   //let imgurl= req.body.attachment._dirname
 
-    const response = cloudinary.uploader.upload(imgurl, {public_id: "olympic_flag"})
+//     const response = cloudinary.uploader.upload(imgurl, {public_id: "olympic_flag"})
 
-    response.then((data) => {
-  console.log(data);
-  console.log(data.secure_url);
-}).catch((err) => {
-  console.log(err);
-});
+//     response.then((data) => {
+//   console.log(data);
+//   console.log(data.secure_url);
+// }).catch((err) => {
+//   console.log(err);
+// });
 try{
   
    const result= await cloudinary.uploader.upload(req.body.attachment,{

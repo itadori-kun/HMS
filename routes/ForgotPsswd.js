@@ -4,45 +4,45 @@ const app =express.Router()
 const Employee=require('../Models/Employee')
 const  nodemailer=require('nodemailer')
 let emailDestination=""
-// sendMail()
+sendMail()
 
-// async function sendMail (){
+async function sendMail (){
 
 
-// let transporter=nodemailer.createTransport({
-//     service:'gmail',
-//     port:'587',
+let transporter=nodemailer.createTransport({
+    service:'gmail',
+    port:'587',
     
-//     auth:{
-//         user:'uveghobamien@gmail.com',
-//         pass:'soskid19'
-//     },
+    auth:{
+        user:'uveghobamien@gmail.com',
+        pass:'soskid19'
+    },
  
-//     // secureConnection: 'false',
-//     // tls: {
-//     //     ciphers: 'SSLv3',
-//     //     rejectUnauthorized: false
-//     // }
-// });
+    // secureConnection: 'false',
+    // tls: {
+    //     ciphers: 'SSLv3',
+    //     rejectUnauthorized: false
+    // }
+});
 
 
-// let mailOptions={
-//     from:"uveghobamien@gmail.com",
-//     to: "gavohospitals@gmail.com",
-//     subject:"one time code to reset your GAVO password",
-//     text:"if you did not send this ignore-testing"
-// }
+let mailOptions={
+    from:"uveghobamien@gmail.com",
+    to: "gavohospitals@gmail.com",
+    subject:"one time code to reset your GAVO password",
+    text:"if you did not send this ignore-testing"
+}
 
-// transporter.sendMail(mailOptions,function(error,info){
-//     if(error){
-//         console.log(error);
-//     }
-//     else{
-//         console.log("email sent"+info.response);
-//     }
-// })
+transporter.sendMail(mailOptions,function(error,info){
+    if(error){
+        console.log(error);
+    }
+    else{
+        console.log("email sent"+info.response);
+    }
+})
 
-// }
+}
 
 app.route('/').post(async(req,res)=>{
     if(!req.body) return res.json({

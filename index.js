@@ -52,7 +52,7 @@ app.use('/ward', require('./routes/Ward'))
 app.use( '/bed', require( './routes/Bed' ) )
 app.use('/drugs', require('./routes/Drug'))
 app.use('/appointment', require('./routes/Appointment'))
-app.use('pharmacy',require('./routes/Pharmacy'))
+app.use('/pharmacy',require('./routes/Pharmacy'))
 app.use('/medication', require('./routes/Medications'))
 app.use('/forgotPassword',require('./routes/ForgotPsswd'))
 // Mongoose connection
