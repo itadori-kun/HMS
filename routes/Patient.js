@@ -13,40 +13,40 @@ app.route('/').get(async (req, res) => {
 })
 // create single patient route
 // create a new patient to the patient collection in the database
-app.route('/create').post(async (req, res) => {
-  if (!req?.body) {
-    return res.status(400).json({ msg: 'No content for creating patient' })
-  }
+// app.route('/create').post(async (req, res) => {
+//   if (!req?.body) {
+//     return res.status(400).json({ msg: 'No content for creating patient' })
+//   }
 
-  try {
-    const patient = new Patient({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      email: req.body.email,
-      password: req.body.password,
-      avatar: req.body.avatar,
-      gender: req.body.gender,
-      d_o_b: req.body.d_o_b,
-      phone: req.body.phone,
-      address: req.body.address,
-      occupation: req.body.occupation,
-      type_of_patient: req.body.type_of_patient,
-      allergies: req.body.allergies,
-      insurance: req.body.insurance,
-      bed_id: req.body.bed_id,
-      vitals: req.body.vitals,
-      emergency_contact: req.body.emergency_contact
-    })
-    const new_patient = await patient.save()
-    res.status(201).json({
-      msg: 'New patient info created successfully',
-      data: new_patient
-    })
-  } catch (err) {
-    console.error(err)
-    res.status(500).json({ err: 'Failed to create new patient' })
-  }
-})
+//   try {
+//     const patient = new Patient({
+//       first_name: req.body.first_name,
+//       last_name: req.body.last_name,
+//       email: req.body.email,
+//       password: req.body.password,
+//       avatar: req.body.avatar,
+//       gender: req.body.gender,
+//       d_o_b: req.body.d_o_b,
+//       phone: req.body.phone,
+//       address: req.body.address,
+//       occupation: req.body.occupation,
+//       type_of_patient: req.body.type_of_patient,
+//       allergies: req.body.allergies,
+//       insurance: req.body.insurance,
+//       bed_id: req.body.bed_id,
+//       vitals: req.body.vitals,
+//       emergency_contact: req.body.emergency_contact
+//     })
+//     const new_patient = await patient.save()
+//     res.status(201).json({
+//       msg: 'New patient info created successfully',
+//       data: new_patient
+//     })
+//   } catch (err) {
+//     console.error(err)
+//     res.status(500).json({ err: 'Failed to create new patient' })
+//   }
+// })
 
 // Single patient route
 
