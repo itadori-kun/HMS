@@ -25,12 +25,23 @@ app.route('/').post(async(req,res)=>{
 
 app.route('/').get(async(req,res)=>{
   try {
-    const drugs =  await drugModel.find().populate('branch_id').exec()
+    // enable pagination
+    const pageSize = 2
+    const page = Number(req.query.pageNumber) || 1;
+    const count = await drugModel.find({}).estimatedDocumentCount();
+
+    const drugs =  await drugModel.find().populate('branch_id')
+    .skip(pageSize * (page - 1))
+    .limit(pageSize)
+
     if(!drugs) return res.sendStatus(400).json({msg:"no drugs found"})
     res.json({
       code:200,
       msg:"drugs found successfully",
-      drugs
+      drugs,
+      page,
+      pages: Math.ceil(count / pageSize),
+      count
     })
   } catch (error) {
     console.log(error)

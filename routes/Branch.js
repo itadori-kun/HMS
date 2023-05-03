@@ -29,10 +29,24 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async (req, res) => {
  try {
+  // enable pagination
+  const pageSize = 1
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await branchModel.find({}).estimatedDocumentCount()
+
   const branch = await branchModel.find()
   .populate('hospital')
   .populate({path:"admin_id", select:["roles",'email','first_name','last_name']})
-  res.json(branch)
+.skip(pageSize * (page -1))
+.limit(pageSize)
+  res.json({
+    code:200,
+    msg:"all branches found",
+    branch,
+    page,
+    pages: Math.ceil(count / pageSize),
+    pageSize
+  })
  } catch (error) {
   console.log(error)
  }
