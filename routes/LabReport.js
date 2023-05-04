@@ -20,7 +20,7 @@ const labReport = new labReportModel({
 const result = await cloudinary.uploader.upload(file.tempFilePath,{
   public_id: `${Date.now()}`,
   resource_type:"auto",
-  folder_id:'labUploads'
+  folder:'labUploads'
 })
 res.json({
   code:200,
