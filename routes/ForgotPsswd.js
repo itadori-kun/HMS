@@ -48,9 +48,11 @@ app.route('/').post(async (req, res) => {
             let x = Math.floor(Math.random() * 10);
             let y = Math.floor(Math.random() * 10);
             let z = Math.floor(Math.random() * 10);
-            let q = Math.floor(Math.random() * 10);
+            let a = Math.floor(Math.random() * 10);
+            let b = Math.floor(Math.random() * 10);
+            let c = Math.floor(Math.random() * 10);
 
-            data.random_code = `${x}${y}${z}${q}`
+            data.random_code = `${x}${y}${z}${a}${b}${c}`
 
     
         }
@@ -66,7 +68,7 @@ app.route('/').post(async (req, res) => {
         current_code=data.random_code
         console.log("current code",  current_code);
          transporter.sendMail({
-            to: "gavohospitals@gmail.com",
+            to: req.body.email,
             from: "uveghobamien@gmail.com",
             subject: "Reset password code",
             html: "<h1>One time code to reset password<h1>"+data.random_code,
@@ -89,7 +91,8 @@ app.route('/').post(async (req, res) => {
 
 app.route('/compare').post(async(req,res)=>{
 if(!req.body) return res.json({
-    msg:"request body is missing or incomplete"
+    msg:"request body is missing or incomplete",
+    code:401
 })
 
 try{
