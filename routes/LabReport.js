@@ -2,12 +2,7 @@ const express = require('express')
 const app = express.Router()
 const LabReport = require('../Models/Lab_Reports')
 const multer = require('multer')
-const express = require('express')
-const app = express.Router()
-const LabReport = require('../Models/Lab_Reports')
-const multer = require('multer')
 const path = require('path')
-const cloudinary = require('../utils/cloudinary')
 const cloudinary = require('../utils/cloudinary')
 
 // const storage=multer.diskStorage({
