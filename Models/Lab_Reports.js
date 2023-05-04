@@ -14,22 +14,7 @@ patient_id:{
 	emp_id:{
         type:Schema.Types.ObjectId,ref:"employees",required:true
     },
-
-	// attachment :{
-      
-
-    //     public_id:{
-    //         type:String,
-    //         required:true
-    //     },
-    //     url:{
-    //         type:String,
-    //         required:true
-    //     }
-        
-    // }
-
-	
+	attarchment :{type:String}
 
 },{timestamps:true})
 

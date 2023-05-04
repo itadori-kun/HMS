@@ -11,21 +11,24 @@ app.use(fileupload({
 
 app.route('/').post(async(req,res)=>{
 const file = req.files.image
-const labReport = new labReportModel({
-  lab_id:req.body.lab_id,
-  description:req.body.description,
-  patient_id:req.body.patient_id,
-  emp_id:req.body.emp_id
-})
 const result = await cloudinary.uploader.upload(file.tempFilePath,{
   public_id: `${Date.now()}`,
   resource_type:"auto",
   folder:'labUploads'
 })
+const labReport = new labReportModel({
+  lab_id:req.body.lab_id,
+  description:req.body.description,
+  patient_id:req.body.patient_id,
+  emp_id:req.body.emp_id,
+  attarchment: result.url
+})
+// labReport.attarchment = result
+const new_labReport = await labReport.save()
 res.json({
   code:200,
   msg:"lab report created successfully",
-  labReport,
+  new_labReport,
   url: result.url
 })
 })
