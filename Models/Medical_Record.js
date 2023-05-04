@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const MedicalRecordSchema = new Schema(
   {
-    card_no: { type: String, ref: 'patients', required:true },
+    card_no: { type: String, ref: 'patients', required: true },
     diagnosis: { type: String, required: true },
     symptoms: { type: String, required: true },
     treatments: { type: String, required: true },

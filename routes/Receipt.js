@@ -20,7 +20,7 @@ app.route('/create').post(async (req, res) => {
     const receipt = new Receipt({
       card_no: req.body.card_no,
       due_date: req.body.due_date,
-      payment_analysis: req.body.payment_analysis,
+      payment_analysis: req.body.payment_analysis.toLowerCase(),
       vat: req.body.vat,
       total_amount: req.body.total_amount
     })
