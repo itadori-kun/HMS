@@ -32,11 +32,7 @@ app.get('/', (req, res) => {
 })
 app.use('/auth', require('./routes/EmployeeAuth'), require('./routes/UserAuth'))
 app.use('/hospital', require('./routes/Hospital'))
-app.use(
-  '/branch',
-  require('./routes/Branch'),
-  require('./routes/BranchEmployees')
-)
+app.use('/branch', require('./routes/Branch'))
 app.use('/department', require('./routes/Department'))
 app.use('/labReport', require('./routes/LabReport'))
 app.use('/doctor', require('./routes/Doctor'))

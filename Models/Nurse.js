@@ -6,7 +6,8 @@ const NurseSchema = new Schema({
   ward_no: [{ type: Schema.Types.ObjectId, ref: 'wards', required: true }],
   patients_incharge_of: [
     { type: Schema.Types.ObjectId, ref: 'patients', required: true }
-  ]
+  ],
+  branch_id: { type: Schema.Types.ObjectId, ref: 'branches', required: true }
 })
 
 const Nurse = mongoose.model('nurses', NurseSchema)

@@ -3,25 +3,11 @@ const Employee = require('../Models/Employee')
 const app = express.Router()
 
 // get all employee route
-// get all employee from the employee collection in the database
-// app.route('/').get(async (req, res) => {
-//   const get_all_employees = await Employee.find().populate('branch', [
-//     'name',
-//     'address'
-//   ])
-//   if (!get_all_employees) {
-//     res.status(204).json({ msg: 'No employee info found' })
-//   }
-//   res.status(200).json({ msg: 'Request successful', data: get_all_employees })
-// } )
+// get all employee from the employee collection in the database and filter through via SIX(6) categories
+
 app.route('/').get(async (req, res) => {
   let filter = {}
-  let { role, hospital,branch, department, status, staff_type } = req.query
-  console.log(req.query)
-  // if (_id.match(/^[0-9a-fA-F]{24}$/)) {
-
-  //   console.log(filter, role)
-  // }
+  let { role, hospital, branch, department, status, staff_type } = req.query
   if (role) filter.role = role
   if (hospital) filter.hospital = hospital
   if (branch) filter.branch = branch
@@ -30,51 +16,25 @@ app.route('/').get(async (req, res) => {
   if (staff_type) filter.staff_type = staff_type
 
   try {
-    let employees = await Employee.find( filter )
-    if (!employees) {
-      res.status(400).json({ msg: 'Request not found'})
-    } else if(employees) {
-      res.status(200).json({ msg: 'Request successful', data: employees  })
+    const employees = await Employee.find(filter)
+      .populate({
+        path: 'branch',
+        select: ['name', 'address']
+      })
+      .populate({ path: 'hospital' })
+      .populate({ path: 'department' })
+    if (employees.length == 0) {
+      return res.status(200).json({ msg: 'Record not found' })
+    } else if (!employees.length == 0) {
+      return res
+        .status(200)
+        .json({ msg: 'Request successful', data: employees })
     }
   } catch (err) {
     console.error(err)
     res.status(500).json({ msg: 'Invalid search' })
   }
 })
-
-
-// create single employee route
-// create a new employee to the employee collection in the database
-// app.route('/create').post(async (req, res) => {
-//   if (!req?.body) {
-//     return res.status(400).json({ msg: 'No content for creating employee' })
-//   }
-//   try {
-//     const employee = new Employee({
-//       first_name: req.body.first_name,
-//       last_name: req.body.last_name,
-//       avatar: req.body.avatar,
-//       gender: req.body.gender,
-//       email: req.body.email,
-//       password: req.body.password,
-//       phone: req.body.phone,
-//       address: req.body.address,
-//       status: req.body.status,
-//       branch: req.body.branch,
-//       department: req.body.department,
-//       role: req.body.role,
-//       staff_type: req.body.staff_type
-//     })
-//     const new_employee = await employee.save()
-//     res.status(201).json({
-//       msg: 'New employee info created successfully',
-//       data: new_employee
-//     })
-//   } catch (err) {
-//     console.error(err)
-//     res.status(500).json({ err: 'Failed to create new Employee' })
-//   }
-// })
 
 // Single employee route
 
@@ -112,10 +72,13 @@ app
       return res.status(400).json({ msg: 'Failed request' })
     }
     try {
-      const employee = await Employee.findOne({ _id: req.params.id }).populate(
-        'branch',
-        ['name', 'address']
-      )
+      const employee = await Employee.findOne({ _id: req.params.id })
+        .populate({
+          path: 'branch',
+          select: ['name', 'address']
+        })
+        .populate({ path: 'hospital' })
+        .populate({ path: 'department' })
       if (!employee) {
         return res.status(400).json({ msg: 'Employee not found' })
       }
