@@ -2,6 +2,34 @@ const express = require('express')
 const Nurse = require('../Models/Nurse')
 const app = express.Router()
 
+app.route('/').get(async (req, res) => {
+  let filter = {}
+  const { emp_id, ward_no, patients_incharge_of } = req.query
+  if (emp_id) filter.emp_id = emp_id
+  if (ward_no) filter.ward_no = ward_no
+  if (patients_incharge_of) filter.patients_incharge_of = patients_incharge_of
+  try {
+    const found_nurse = await Nurse.find(filter)
+      .populate({ path: 'emp_id' })
+      .populate({ path: 'ward_no', select: ['name', 'type'] })
+      .populate({
+        path: 'patients_incharge_of',
+        select: ['card_no', 'emergency_contact']
+      })
+      .populate({
+        path: 'branch_id',
+        populate: { path: 'hospital', select: ['name', 'prefix'] },
+        select: ['name', 'address']
+      })
+    if (found_nurse.length == 0) {
+      return res.status(200).json({ msg: 'Record not found' })
+    }
+    res.status(200).json({ msg: 'Record found', data: found_nurse })
+  } catch (err) {
+    res.status(500).json({ msg: 'Something went wrong' })
+  }
+})
+
 app
   .route('/:id')
   .post(async (req, res) => {
@@ -17,7 +45,8 @@ app
         speciality = new Nurse({
           emp_id: req.params.id,
           ward_no: req.body.ward_no,
-          patients_incharge_of: req.body.patients_incharge_of
+          patients_incharge_of: req.body.patients_incharge_of,
+          branch_id: req.body.branch_id
         })
         await speciality.save()
       } else if (
@@ -39,7 +68,7 @@ app
       })
     } catch (err) {
       console.error(err)
-      res.status(500).json({ err: 'Failed to assign specialty' })
+      res.status(500).json({ err: 'Failed to assign' })
     }
   })
   .get(async (req, res) => {
@@ -47,12 +76,13 @@ app
       return res.status(400).json({ msg: 'Failed request' })
     }
     try {
-      const nurse_info = await Nurse.findOne({
-        emp_id: req.params.id
-      })
-        .populate('emp_id')
-        .populate('ward_no')
-        .populate('patients_incharge_of')
+      const nurse_info = await Nurse.findOne({ emp_id: req.params.id })
+        .populate({ path: 'emp_id' })
+        .populate({ path: 'ward_no', select: ['name', 'type'] })
+        .populate({
+          path: 'patients_incharge_of',
+          select: ['card_no', 'emergency_contact']
+        })
       if (!nurse_info) return res.status(400).json({ msg: 'No info found' })
       res.status(200).json({ msg: "Nurse's info found", data: nurse_info })
     } catch (err) {

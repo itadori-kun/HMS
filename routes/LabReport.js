@@ -2,7 +2,12 @@ const express = require('express')
 const app = express.Router()
 const LabReport = require('../Models/Lab_Reports')
 const multer = require('multer')
+const express = require('express')
+const app = express.Router()
+const LabReport = require('../Models/Lab_Reports')
+const multer = require('multer')
 const path = require('path')
+const cloudinary = require('../utils/cloudinary')
 const cloudinary = require('../utils/cloudinary')
 
 // const storage=multer.diskStorage({
@@ -37,8 +42,35 @@ app.route('/').get(async (req, res) => {
     })
     console.log(err)
   }
+app.route('/').get(async (req, res) => {
+  try {
+    const all_reports = await LabReport.find().populate('patient_id').sort()
+    if (!all_reports || all_reports.length == 0)
+      return res.json({
+        msg: 'no lab report exist'
+      })
+    res.json({
+      msg: 'successful',
+      data: all_reports,
+      code: 200
+    })
+  } catch (err) {
+    res.status(500).send(err)
+    res.json({
+      msg: 'failed to retrieve lab reports'
+    })
+    console.log(err)
+  }
 })
 
+app
+  .route('/:id')
+  // .get(async(req,res)=>{
+  // if(!req.params.id)return res.json({
+  //     msg:"request body is missing or incomplete"
+  // })
+  // try{
+  // const report= await LabReport.findById(req.params.id)
 app
   .route('/:id')
   // .get(async(req,res)=>{
@@ -51,7 +83,11 @@ app
   // if(!report) return res.json({
   //     msg:"report does not exist",
   //   code:404
+  // if(!report) return res.json({
+  //     msg:"report does not exist",
+  //   code:404
 
+  // })
   // })
 
   // res.json({
@@ -63,7 +99,17 @@ app
   //     console.log(err)
   //     res.status(500).send(err);
   // }
+  // res.json({
+  //     msg:"successful",
+  //     data:report
+  // })
+  // }
+  // catch(err){
+  //     console.log(err)
+  //     res.status(500).send(err);
+  // }
 
+  // })
   // })
 
   .delete(async (req, res) => {
@@ -78,7 +124,32 @@ app
         return res.json({
           msg: 'report does not exist',
           code: 404
+  .delete(async (req, res) => {
+    if (!req.params.id)
+      return res.json({
+        msg: 'request body is missing or incomplete'
+      })
+    try {
+      const report = await LabReport.findById(req.params.id)
+
+      if (!report)
+        return res.json({
+          msg: 'report does not exist',
+          code: 404
         })
+      await LabReport.findByIdAndDelete(req.params.id)
+      res.json({
+        msg: 'report deleted',
+        code: 200
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(500).send(err)
+      res.json({
+        msg: 'failed to delete'
+      })
+    }
+  })
       await LabReport.findByIdAndDelete(req.params.id)
       res.json({
         msg: 'report deleted',
@@ -171,6 +242,7 @@ app.route('/create').post(async (req, res) => {
 
 // }
 // else{
+
 
 //     let updated_report={...report,...req.body}
 //     report.overwrite(updated_report)

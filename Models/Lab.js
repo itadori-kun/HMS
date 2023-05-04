@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const LabSchema = new Schema({
   name: { type: String, required: true },
   branch: { type: Schema.Types.ObjectId, ref: 'branches', required: true },
-  head_of_dept: { type: String, ref: 'employees' }
+  head_of_dept: { type: Schema.Types.ObjectId, ref: 'employees' }
 })
 
 const Lab = mongoose.model('labs', LabSchema)

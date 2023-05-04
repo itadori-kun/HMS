@@ -4,19 +4,32 @@ const bcrypt = require('bcrypt')
 const app = express.Router()
 
 app.route('/employee/create').post(async (req, res) => {
-  const { password, email } = req.body
+  const {
+    password,
+    email,
+    first_name,
+    last_name,
+    phone,
+    address,
+    staff_type,
+    role,
+    branch,
+    status,
+    department,
+    hospital
+  } = req.body
   if (
-    // !first_name ||
-    // !last_name ||
+    !first_name ||
+    !last_name ||
     !password ||
-    !email
-    // ||
-    // !phone ||
-    // !address ||
-    // !staff_type ||
-    // !role ||
-    // !branch ||
-    // !department
+    !email ||
+    !phone ||
+    !address ||
+    !staff_type ||
+    !role ||
+    !branch ||
+    !department ||
+    !hospital
   )
     return res.status(400).json({ msg: 'All info are required' })
   // check for duplicates in database
@@ -29,19 +42,20 @@ app.route('/employee/create').post(async (req, res) => {
 
     // Created & store new admin
     const new_employee = await Employee.create({
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      avatar: req.body.avatar,
-      gender: req.body.gender,
+      first_name: first_name,
+      last_name: last_name,
+      avatar: avatar,
+      gender: gender,
       email: email,
       password: hashed_password,
-      phone: req.body.phone,
-      address: req.body.address,
-      status: req.body.status,
-      branch: req.body.branch,
-      department: req.body.department,
-      role: req.body.role,
-      staff_type: req.body.staff_type
+      phone: phone,
+      address: address,
+      status: status,
+      branch: branch,
+      hospital: hospital,
+      department: department,
+      role: role,
+      staff_type: staff_type
     })
     res
       .status(201)
