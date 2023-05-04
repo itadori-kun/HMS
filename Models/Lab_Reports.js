@@ -15,19 +15,19 @@ patient_id:{
         type:Schema.Types.ObjectId,ref:"employees",required:true
     },
 
-	attachment :{
+	// attachment :{
       
 
-        public_id:{
-            type:String,
-            required:true
-        },
-        url:{
-            type:String,
-            required:true
-        }
+    //     public_id:{
+    //         type:String,
+    //         required:true
+    //     },
+    //     url:{
+    //         type:String,
+    //         required:true
+    //     }
         
-    }
+    // }
 
 	
 
