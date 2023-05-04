@@ -45,17 +45,17 @@ app.route('/employee/create').post(async (req, res) => {
       first_name: first_name,
       last_name: last_name,
       avatar: req.body.avatar,
-      gender: req.body.gender,
+      gender: req.body.gender.toLowerCase(),
       email: email,
       password: hashed_password,
       phone: phone,
-      address: address,
-      status: status,
-      branch: branch,
+      address: address.toLowerCase(),
+      status: status.toLowerCase(),
+      branch: branch.toLowerCase(),
       hospital: hospital,
       department: department,
-      role: role,
-      staff_type: staff_type
+      role: role.toLowerCase(),
+      staff_type: staff_type.toLowerCase()
     })
     res
       .status(201)

@@ -6,10 +6,9 @@ const app = express.Router()
 app.route('/user').post(async (req, res) => {
   const { password, email } = req.body
 
-  if (!email || !password)
-    return res.status(400).json({ msg: 'All info are required' })
+  if (!req.body) return res.status(400).json({ msg: 'All info are required' })
   // check for duplicates in database
-  const check_duplicates = await Patient.findOne(req.body).exec()
+  const check_duplicates = await Patient.findOne({ email }).exec()
   if (check_duplicates) return res.status(409).json({ msg: 'Already exists' })
 
   try {
@@ -18,24 +17,21 @@ app.route('/user').post(async (req, res) => {
 
     // Created & store new admin
     const new_patient = await Patient.create({
-      // first_name: first_name,
-      // last_name: last_name,
-      // avatar: avatar,
+      first_name: req?.body?.first_name,
+      last_name: req?.body?.last_name,
+      avatar: req?.body?.avatar,
+      gender: req?.body?.gender.toLowerCase(),
       password: hashed_password,
-      email: email
-      // gender: gender,
-      // phone: phone,
-      // d_o_b: d_o_b,
-      // address: address,
-      // occupation: occupation,
-      // allergies: allergies,
-      // insurance: insurance,
-      // emergency_contact: {
-      //   first_name: emergency_contact.first_name,
-      //   last_name: emergency_contact.last_name,
-      //   phone: emergency_contact.phone,
-      //   email: emergency_contact.email
-      // }
+      email: email,
+      d_o_b: req?.body?.d_o_b,
+      phone: req?.body?.phone,
+      address: req?.body?.address.toLowerCase(),
+      occupation: req?.body?.occupation.toLowerCase(),
+      type_of_patient: req.body.type_of_patient,
+      allergies: req?.body?.allergies,
+      insurance: req?.body?.insurance,
+      emergency_contact: req?.body?.emergency_contact,
+      vitals: req?.body?.vitals
     })
     res.status(201).json({ msg: 'New patient info created', data: new_patient })
   } catch (err) {

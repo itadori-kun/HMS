@@ -6,7 +6,7 @@ const PatientSchema = new Schema(
     card_no: { type: Number, unique: true },
     first_name: { type: String, required: true },
     last_name: { type: String, required: true },
-    avatar: { type: String, required: true },
+    avatar: { type: String },
     gender: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true },
@@ -15,6 +15,8 @@ const PatientSchema = new Schema(
     address: { type: String, required: true },
     occupation: { type: String, required: true },
     type_of_patient: { type: String },
+    allergies: { type: String },
+    insurance: { type: String },
     vitals: {
       blood_group: {
         type: String,
