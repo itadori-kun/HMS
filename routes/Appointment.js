@@ -20,7 +20,10 @@ app.route('/').post(async(req, res)=>{
 
 app.route('/').get(async(req,res) => {
   try {
-    const appointment = await appointmentModel.find().populate({path:"card_no", select:['card_no']}).exec()
+    const appointment = await appointmentModel.find()
+    .populate({path:"card_no", select:['card_no']})
+    .populate({path:"physician", populate:{path:"emp_id", select:['first_name', 'last_name']}})
+    .exec()
   if(!appointment) return res.json({msg:"no appointment booked"})
   res.json({
     code:200,
