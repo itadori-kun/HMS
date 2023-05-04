@@ -44,8 +44,8 @@ app.route('/employee/create').post(async (req, res) => {
     const new_employee = await Employee.create({
       first_name: first_name,
       last_name: last_name,
-      avatar: avatar,
-      gender: gender,
+      avatar: req.body.avatar,
+      gender: req.body.gender,
       email: email,
       password: hashed_password,
       phone: phone,
