@@ -34,9 +34,11 @@ app.route('/').post(async (req, res) => {
 
 
         const found_email = await Employee.findOne({ "email": req.body.email })
+        console.log("found",found_email);
         if (!found_email) return res.json({
             msg: "email does not  exist",
             code: 404,
+           
 
         })
 
@@ -53,8 +55,8 @@ app.route('/').post(async (req, res) => {
             let c = Math.floor(Math.random() * 10);
 
             data.random_code = `${x}${y}${z}${a}${b}${c}`
-
-    
+data._id=found_email._id
+data.email=found_email.email
         }
 
         randomGenerator()
@@ -71,7 +73,7 @@ app.route('/').post(async (req, res) => {
             to: req.body.email,
             from: "uveghobamien@gmail.com",
             subject: "Reset password code",
-            html: "<h1>One time code to reset password<h1>"+data.random_code,
+            html: "<p>One time code to reset password<p>"+data.random_code,
             //  text: data.random_code
         }).then(console.log("success")).catch((err)=>{
             console.log(err);
