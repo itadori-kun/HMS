@@ -15,5 +15,20 @@ const AppointmentSchema = new Schema(
   { timestamps: true }
 )
 
+AppointmentSchema.pre('find', function () {
+  this.populate({ path: 'card_no', select: ['card_no'] })
+  this.populate({
+    path: 'physician',
+    populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
+  })
+})
+AppointmentSchema.pre('findOne', function () {
+  this.populate({ path: 'card_no', select: ['card_no'] })
+  this.populate({
+    path: 'physician',
+    populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
+  })
+})
+
 const Appointment = mongoose.model('appointments', AppointmentSchema)
 module.exports = Appointment

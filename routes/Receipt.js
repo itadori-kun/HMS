@@ -4,7 +4,7 @@ const app = express.Router()
 
 app.route('/').get(async (req, res) => {
   try {
-    const record = await Receipt.find().populate('card_no', ['card_no'])
+    const record = await Receipt.find()
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
     console.error(err)

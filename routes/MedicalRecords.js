@@ -5,13 +5,6 @@ const app = express.Router()
 app.route('/').get(async (req, res) => {
   try {
     const record = await Medical_records.find()
-      .populate('card_no', ['card_no'])
-      .populate({
-        path: 'doctor',
-        populate: { path: 'emp_id', select: ['first_name', 'last_name'] },
-        select: 'speciality'
-      })
-      .populate('lab')
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
     console.error(err)

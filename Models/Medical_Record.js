@@ -15,5 +15,24 @@ const MedicalRecordSchema = new Schema(
   { timestamps: true }
 )
 
+MedicalRecordSchema.pre('find', function () {
+  this.populate('card_no', ['card_no'])
+  this.populate({
+    path: 'doctor',
+    populate: { path: 'emp_id', select: ['first_name', 'last_name'] },
+    select: 'speciality'
+  })
+  this.populate('lab')
+})
+MedicalRecordSchema.pre('findOne', function () {
+  this.populate('card_no', ['card_no'])
+  this.populate({
+    path: 'doctor',
+    populate: { path: 'emp_id', select: ['first_name', 'last_name'] },
+    select: 'speciality'
+  })
+  this.populate('lab')
+})
+
 const MedicalRecord = mongoose.model('medicalRecords', MedicalRecordSchema)
 module.exports = MedicalRecord

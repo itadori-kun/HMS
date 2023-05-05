@@ -10,5 +10,32 @@ const NurseSchema = new Schema({
   branch_id: { type: Schema.Types.ObjectId, ref: 'branches', required: true }
 })
 
+NurseSchema.pre('find', function () {
+  this.populate({ path: 'emp_id' })
+  this.populate({ path: 'ward_no', select: ['name', 'type'] })
+  this.populate({
+    path: 'patients_incharge_of',
+    select: ['card_no', 'emergency_contact']
+  })
+  this.populate({
+    path: 'branch_id',
+    populate: { path: 'hospital', select: ['name', 'prefix'] },
+    select: ['name', 'address']
+  })
+})
+NurseSchema.pre('findOne', function () {
+  this.populate({ path: 'emp_id' })
+  this.populate({ path: 'ward_no', select: ['name', 'type'] })
+  this.populate({
+    path: 'patients_incharge_of',
+    select: ['card_no', 'emergency_contact']
+  })
+  this.populate({
+    path: 'branch_id',
+    populate: { path: 'hospital', select: ['name', 'prefix'] },
+    select: ['name', 'address']
+  })
+})
+
 const Nurse = mongoose.model('nurses', NurseSchema)
 module.exports = Nurse
