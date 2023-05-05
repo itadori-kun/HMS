@@ -76,7 +76,7 @@ res.json({
 
 .delete(async(req,res)=>{
   if(!req?.params?.id) return res.sendStatus(400).json({msg:"bad request"})
-  const drug = await drugModel.findOne({id:req.params.id}).exec()
+  const drug = await drugModel.findOne({_id:req.params.id}).exec()
   if(!drug) return res.sendStatus(404).json({msg:"drug not found"})
   const result = await drug.deleteOne()
   res.json({
