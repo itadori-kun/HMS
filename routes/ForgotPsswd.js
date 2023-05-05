@@ -53,8 +53,6 @@ app.route('/').post(async (req, res) => {
             let c = Math.floor(Math.random() * 10);
 
             data.random_code = `${x}${y}${z}${a}${b}${c}`
-
-    
         }
 
         randomGenerator()

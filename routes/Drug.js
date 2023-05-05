@@ -26,11 +26,13 @@ app.route('/').post(async(req,res)=>{
 app.route('/').get(async(req,res)=>{
   try {
     // enable pagination
-    const pageSize = 2
+    const pageSize = 10
     const page = Number(req.query.pageNumber) || 1;
     const count = await drugModel.find({}).estimatedDocumentCount();
 
-    const drugs =  await drugModel.find().populate('branch_id')
+    const drugs =  await drugModel.find()
+    .populate('branch_id')
+    .populate('pharmacy_id')
     .skip(pageSize * (page - 1))
     .limit(pageSize)
 
