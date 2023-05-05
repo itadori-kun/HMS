@@ -5,48 +5,26 @@ const app = express.Router()
 // get all patient route
 // get all patient from the patient collection in the database
 app.route('/').get(async (req, res) => {
-  const get_all_patients = await Patient.find()
+  const page = parseInt(req.query.page * 1) || 1
+  const limit = parseInt(req.query.limit * 1) || 10
+  const skip = (page - 1) * limit
+  let model_length = ''
+  if (page) {
+    model_length = await Patient.countDocuments()
+    if (skip >= model_length) {
+      return res.json({ msg: 'page not found' })
+    }
+  }
+  const get_all_patients = await Patient.find().skip(skip).limit(limit)
   if (!get_all_patients) {
     res.status(204).json({ msg: 'No patient info found' })
   }
-  res.status(200).json({ msg: 'Request successful', data: get_all_patients })
+  res.status(200).json({
+    msg: 'Request successful',
+    length: model_length,
+    data: get_all_patients
+  })
 })
-// create single patient route
-// create a new patient to the patient collection in the database
-// app.route('/create').post(async (req, res) => {
-//   if (!req?.body) {
-//     return res.status(400).json({ msg: 'No content for creating patient' })
-//   }
-
-//   try {
-//     const patient = new Patient({
-//       first_name: req.body.first_name,
-//       last_name: req.body.last_name,
-//       email: req.body.email,
-//       password: req.body.password,
-//       avatar: req.body.avatar,
-//       gender: req.body.gender,
-//       d_o_b: req.body.d_o_b,
-//       phone: req.body.phone,
-//       address: req.body.address,
-//       occupation: req.body.occupation,
-//       type_of_patient: req.body.type_of_patient,
-//       allergies: req.body.allergies,
-//       insurance: req.body.insurance,
-//       bed_id: req.body.bed_id,
-//       vitals: req.body.vitals,
-//       emergency_contact: req.body.emergency_contact
-//     })
-//     const new_patient = await patient.save()
-//     res.status(201).json({
-//       msg: 'New patient info created successfully',
-//       data: new_patient
-//     })
-//   } catch (err) {
-//     console.error(err)
-//     res.status(500).json({ err: 'Failed to create new patient' })
-//   }
-// })
 
 // Single patient route
 

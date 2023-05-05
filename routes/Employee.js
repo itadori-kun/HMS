@@ -17,12 +17,6 @@ app.route('/').get(async (req, res) => {
 
   try {
     const employees = await Employee.find(filter)
-      .populate({
-        path: 'branch',
-        select: ['name', 'address']
-      })
-      .populate({ path: 'hospital' })
-      .populate({ path: 'department' })
     if (employees.length == 0) {
       return res.status(200).json({ msg: 'Record not found' })
     } else if (!employees.length == 0) {
@@ -73,12 +67,6 @@ app
     }
     try {
       const employee = await Employee.findOne({ _id: req.params.id })
-        .populate({
-          path: 'branch',
-          select: ['name', 'address']
-        })
-        .populate({ path: 'hospital' })
-        .populate({ path: 'department' })
       if (!employee) {
         return res.status(400).json({ msg: 'Employee not found' })
       }

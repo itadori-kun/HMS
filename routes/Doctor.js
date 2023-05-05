@@ -1,7 +1,5 @@
 const express = require('express')
 const Doctor = require('../Models/Doctors')
-// const Employee = require('../models/Employee')
-// const Employee = require('../models/Employee')
 const app = express.Router()
 
 app.route('/').get(async (req, res) => {
@@ -12,12 +10,6 @@ app.route('/').get(async (req, res) => {
   if (speciality) filter.speciality = speciality
   try {
     const found_doctors = await Doctor.find(filter)
-      .populate({ path: 'emp_id' })
-      .populate({
-        path: 'branch_id',
-        populate: { path: 'hospital', select: ['name', 'prefix'] },
-        select: ['name', 'address']
-      })
     if (found_doctors.length == 0) {
       res.status(200).json({ msg: 'Record not found' })
     }
@@ -59,12 +51,6 @@ app
       const doctor_info = await Doctor.findOne({
         emp_id: req.params.id
       })
-        .populate({ path: 'emp_id' })
-        .populate({
-          path: 'branch_id',
-          populate: { path: 'hospital', select: ['name', 'prefix'] },
-          select: ['name', 'address']
-        })
       if (!doctor_info) return res.status(400).json({ msg: 'No info found' })
       res.status(200).json({ msg: "Doctor's info found", data: doctor_info })
     } catch (err) {
