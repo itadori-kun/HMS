@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express.Router()
 const drugModel = require('../Models/Drug')
+const pharmacyModel = require('../Models/Pharmacy')
 
 
 app.route('/').post(async(req,res)=>{
@@ -16,6 +17,9 @@ app.route('/').post(async(req,res)=>{
     branch_id: req.body.branch_id
   })
   const new_drug = await drug.save()
+  await pharmacyModel.findByIdAndUpdate(req.body.pharmacy_id, {
+    $push:{drug_id: new_drug._id}
+  })
   res.json({
     code:201,
     msg:"drug created successfully",
