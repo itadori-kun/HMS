@@ -4,7 +4,7 @@ const app = express.Router()
 
 app.route('/').get(async (req, res) => {
   try {
-    const record = await Receipt.find().populate('card_no', ['card_no'])
+    const record = await Receipt.find()
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
     console.error(err)
@@ -20,7 +20,7 @@ app.route('/create').post(async (req, res) => {
     const receipt = new Receipt({
       card_no: req.body.card_no,
       due_date: req.body.due_date,
-      payment_analysis: req.body.payment_analysis,
+      payment_analysis: req.body.payment_analysis.toLowerCase(),
       vat: req.body.vat,
       total_amount: req.body.total_amount
     })

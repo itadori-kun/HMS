@@ -5,7 +5,7 @@ const app = express.Router()
 // Get all labs
 app.route('/').get(async (req, res) => {
   try {
-    const lab = await Lab.find().populate('branch').populate('head_of_dept')
+    const lab = await Lab.find()
     if (!lab) {
       return res.status(400).json({ msg: 'No info found' })
     }
@@ -43,9 +43,6 @@ app
     }
     try {
       const lab = await Lab.findOne({ _id: req.params.id })
-        .populate('branch')
-        .populate('head_of_dept')
-
       if (!lab) {
         res.status(400).json({ msg: 'No info found' })
       }

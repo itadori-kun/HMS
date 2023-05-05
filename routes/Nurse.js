@@ -10,17 +10,6 @@ app.route('/').get(async (req, res) => {
   if (patients_incharge_of) filter.patients_incharge_of = patients_incharge_of
   try {
     const found_nurse = await Nurse.find(filter)
-      .populate({ path: 'emp_id' })
-      .populate({ path: 'ward_no', select: ['name', 'type'] })
-      .populate({
-        path: 'patients_incharge_of',
-        select: ['card_no', 'emergency_contact']
-      })
-      .populate({
-        path: 'branch_id',
-        populate: { path: 'hospital', select: ['name', 'prefix'] },
-        select: ['name', 'address']
-      })
     if (found_nurse.length == 0) {
       return res.status(200).json({ msg: 'Record not found' })
     }
@@ -77,12 +66,6 @@ app
     }
     try {
       const nurse_info = await Nurse.findOne({ emp_id: req.params.id })
-        .populate({ path: 'emp_id' })
-        .populate({ path: 'ward_no', select: ['name', 'type'] })
-        .populate({
-          path: 'patients_incharge_of',
-          select: ['card_no', 'emergency_contact']
-        })
       if (!nurse_info) return res.status(400).json({ msg: 'No info found' })
       res.status(200).json({ msg: "Nurse's info found", data: nurse_info })
     } catch (err) {

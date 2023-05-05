@@ -5,13 +5,6 @@ const app = express.Router()
 app.route('/').get(async (req, res) => {
   try {
     const record = await Medical_records.find()
-      .populate('card_no', ['card_no'])
-      .populate({
-        path: 'doctor',
-        populate: { path: 'emp_id', select: ['first_name', 'last_name'] },
-        select: 'speciality'
-      })
-      .populate('lab')
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
     console.error(err)
@@ -26,11 +19,11 @@ app.route('/create').post(async (req, res) => {
   try {
     const medical_record = new Medical_records({
       card_no: req.body.card_no,
-      diagnosis: req.body.diagnosis,
-      symptoms: req.body.symptoms,
-      treatments: req.body.treatments,
-      follow_up_info: req.body.follow_up_info,
-      medications: req.body.medications,
+      diagnosis: req.body.diagnosis.toLowerCase(),
+      symptoms: req.body.symptoms.toLowerCase(),
+      treatments: req.body.treatments.toLowerCase(),
+      follow_up_info: req.body.follow_up_info.toLowerCase(),
+      medications: req.body.medications.toLowerCase(),
       lab: req.body.lab,
       doctor: req.body.doctor
     })

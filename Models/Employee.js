@@ -31,5 +31,23 @@ EmployeeSchema.methods.toJSON = function () {
   return obj
 }
 
+EmployeeSchema.pre('find', function () {
+  this.populate({
+    path: 'branch',
+    select: ['name', 'address']
+  })
+  this.populate({ path: 'hospital' })
+  this.populate({ path: 'department' })
+} )
+
+EmployeeSchema.pre('findOne', function () {
+  this.populate({
+    path: 'branch',
+    select: ['name', 'address']
+  })
+  this.populate({ path: 'hospital' })
+  this.populate({ path: 'department' })
+})
+
 const Employee = mongoose.model('employees', EmployeeSchema)
 module.exports = Employee

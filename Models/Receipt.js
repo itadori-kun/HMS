@@ -32,5 +32,12 @@ const ReceiptSchema = new Schema(
   { timestamps: true }
 )
 
+ReceiptSchema.pre('find', function () {
+  this.populate('card_no', ['card_no'])
+})
+ReceiptSchema.pre('findOne', function () {
+  this.populate('card_no', ['card_no'])
+})
+
 const Receipt = mongoose.model('receipts', ReceiptSchema)
 module.exports = Receipt
