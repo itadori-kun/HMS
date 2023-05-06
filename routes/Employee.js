@@ -1,5 +1,6 @@
 const express = require('express')
 const Employee = require('../Models/Employee')
+const pagination = require('../utils/pagination')
 const app = express.Router()
 
 // get all employee route
@@ -7,7 +8,7 @@ const app = express.Router()
 
 app.route('/').get(async (req, res) => {
   let filter = {}
-  let { role, hospital, branch, department, status, staff_type } = req.query
+  const { role, hospital, branch, department, status, staff_type } = req.query
   if (role) filter.role = role
   if (hospital) filter.hospital = hospital
   if (branch) filter.branch = branch
@@ -16,17 +17,14 @@ app.route('/').get(async (req, res) => {
   if (staff_type) filter.staff_type = staff_type
 
   try {
-    const employees = await Employee.find(filter)
+    const employees = await pagination(Employee, req, filter)
     if (employees.length == 0) {
       return res.status(200).json({ msg: 'Record not found' })
     } else if (!employees.length == 0) {
-      return res
-        .status(200)
-        .json({ msg: 'Request successful', data: employees })
+      return res.status(200).json({ msg: 'Request successful', employees })
     }
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ msg: 'Invalid search' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 
@@ -54,8 +52,7 @@ app
         .status(200)
         .json({ msg: 'Updated successfully', data: update_employee })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to update employee info' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
 
@@ -72,8 +69,7 @@ app
       }
       res.status(200).json({ msg: 'Employee info found', data: employee })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to get employee info' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
 
@@ -93,8 +89,7 @@ app
         .status(200)
         .json({ msg: 'Employee deleted successfully', data: result })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to delete employee info' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
 module.exports = app

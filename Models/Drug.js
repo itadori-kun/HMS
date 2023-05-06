@@ -11,7 +11,6 @@ const DrugSchema=mongoose.Schema({
    price :{type:Number,required:true},                        
    pharmacy_id :{type:String,ref:"pharmacies",required:true},   
    branch_id:{type:String, ref:"branches",required:true}            
-
 })
 
 const Drug=mongoose.model('drugs',DrugSchema)

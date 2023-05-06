@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express.Router()
 const drugModel = require('../Models/Drug')
+const pharmacyModel = require('../Models/Pharmacy')
 
 
 app.route('/').post(async(req,res)=>{
@@ -16,6 +17,9 @@ app.route('/').post(async(req,res)=>{
     branch_id: req.body.branch_id
   })
   const new_drug = await drug.save()
+  await pharmacyModel.findByIdAndUpdate(req.body.pharmacy_id, {
+    $push:{drug_id: new_drug._id}
+  })
   res.json({
     code:201,
     msg:"drug created successfully",
@@ -25,13 +29,22 @@ app.route('/').post(async(req,res)=>{
 
 app.route('/').get(async(req,res)=>{
   try {
-    // enable pagination
-    const pageSize = 2
-    const page = Number(req.query.pageNumber) || 1;
-    const count = await drugModel.find({}).estimatedDocumentCount();
 
-    const drugs =  await drugModel.find().populate('branch_id')
-    .skip(pageSize * (page - 1))
+    let filter = {}
+    const {name, category, brand} = req.query
+    if(name) filter.name = name
+    if(category) filter.category = category
+    if(brand) filter.brand = brand
+
+    // enable pagination
+    const pageSize = Number(req.query.limit) || 15;
+    const pageNumber = Number(req.query.page) || 1;
+    const count = await drugModel.find(filter).estimatedDocumentCount();
+
+    const drugs =  await drugModel.find(filter)
+    .populate('branch_id')
+    .populate('pharmacy_id')
+    .skip(pageSize * (pageNumber - 1))
     .limit(pageSize)
 
     if(!drugs) return res.sendStatus(400).json({msg:"no drugs found"})
@@ -39,7 +52,7 @@ app.route('/').get(async(req,res)=>{
       code:200,
       msg:"drugs found successfully",
       drugs,
-      page,
+      pageNumber,
       pages: Math.ceil(count / pageSize),
       count
     })
@@ -74,7 +87,7 @@ res.json({
 
 .delete(async(req,res)=>{
   if(!req?.params?.id) return res.sendStatus(400).json({msg:"bad request"})
-  const drug = await drugModel.findOne({id:req.params.id}).exec()
+  const drug = await drugModel.findOne({_id:req.params.id}).exec()
   if(!drug) return res.sendStatus(404).json({msg:"drug not found"})
   const result = await drug.deleteOne()
   res.json({

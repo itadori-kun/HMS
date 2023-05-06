@@ -1,14 +1,20 @@
 const express = require('express')
 const Receipt = require('../Models/Receipt')
+const pagination = require('../utils/pagination')
 const app = express.Router()
 
 app.route('/').get(async (req, res) => {
+  let filter = {}
+  const { createdAt, due_date, card_no, payment_status } = req.query
+  if (createdAt) filter.createdAt = createdAt
+  if (due_date) filter.due_date = due_date
+  if (card_no) filter.card_no = card_no
+  if (payment_status) filter.payment_status = payment_status
   try {
-    const record = await Receipt.find()
-    res.status(200).json({ msg: 'Records found', data: record })
+    const record = await pagination(Receipt, req, filter)
+    res.status(200).json({ msg: 'Records found', record })
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ msg: 'Failed to get info' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 
@@ -29,8 +35,7 @@ app.route('/create').post(async (req, res) => {
       .status(201)
       .json({ msg: 'Record created successfully', data: new_receipt })
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ msg: 'Failed to create record' })
+    return res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 
@@ -40,11 +45,15 @@ app
     if (!req.params.id) {
       return res.status(400).json({ msg: 'Invalid request sent' })
     }
-    const record = await Receipt.findOne({ _id: req.params.id }).exec()
-    if (!record) {
-      return res.status(400).json({ msg: 'No record found' })
+    try {
+      const record = await Receipt.findOne({ _id: req.params.id }).exec()
+      if (!record) {
+        return res.status(400).json({ msg: 'No record found' })
+      }
+      res.status(200).json({ msg: 'Record found', data: record })
+    } catch (err) {
+      res.status(500).json({ msg: 'Something went wrong' })
     }
-    res.status(200).json({ msg: 'Record found', data: record })
   })
 
   .put(async (req, res) => {
@@ -65,8 +74,7 @@ app
       )
       res.status(200).json({ msg: 'Record successfully updated', data: record })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to carry out request' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
 
@@ -84,8 +92,7 @@ app
       const result = await record.deleteOne()
       res.status(200).json({ msg: 'Successfully deleted', data: result })
     } catch (err) {
-      console.error(err)
-      return readSync.status(500).json({ msg: 'Failed to delete record' })
+      return readSync.status(500).json({ msg: 'Something went wrong' })
     }
   })
 

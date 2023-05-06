@@ -11,8 +11,7 @@ app.route('/').get(async (req, res) => {
     }
     res.status(200).json({ msg: 'Request successful', data: lab })
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ msg: 'No info found' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 // create a new lab
@@ -29,8 +28,7 @@ app.route('/create').post(async (req, res) => {
     const new_lab = await lab.save()
     res.status(201).json({ msg: 'New lab created', data: new_lab })
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ err: 'failed to create a lab' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 
@@ -48,8 +46,7 @@ app
       }
       res.status(200).json({ msg: 'Request successful', data: lab })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to get lab info' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
   // edit a single lab info
@@ -68,8 +65,7 @@ app
       )
       res.status(200).json({ msg: 'Updated successfully', data: update_lab })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to get lab info' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
   // delete a lab info
@@ -87,8 +83,7 @@ app
       const result = await lab.deleteOne()
       res.status(200).json({ msg: 'Request successful', data: result })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to get lab info' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
 

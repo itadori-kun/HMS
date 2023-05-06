@@ -13,7 +13,7 @@ app.route('/').get(async (req, res) => {
     if (emp_id) filter.emp_id = emp_id
     if (name) filter.name = name
 
-    let pharmacyFilter = await Pharmacy.find(filter)
+    let pharmacyFilter = await Pharmacy.find(filter).populate("drug_id")
     res.json({
       msg: "successfull",
       data: pharmacyFilter,
