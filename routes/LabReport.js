@@ -103,15 +103,22 @@ app.route('/:id')
         code: 404
       })
 
-      let report_update = { ...lab_report._doc, ...req.body }
-      console.log(report_update);
-      lab_report.overwrite(report_update)
-      await lab_report.save()
+      if(!req.body.attarchment){
+        let report_update = { ...lab_report._doc, ...req.body }
+        console.log(report_update);
+        lab_report.overwrite(report_update)
+        await lab_report.save()
+  
+        res.json({
+          msg: "lab report updated ",
+          data: lab_report
+        })
+      }
+      else{
+        
+      }
 
-      res.json({
-        msg: "lab report ",
-        data: lab_report
-      })
+      
     }
     catch (err) {
       console.log(err);
