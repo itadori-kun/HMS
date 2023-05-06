@@ -25,7 +25,11 @@ app.route('/').post(async (req, res) => {
 
 app.route('/').get(async (req, res) => {
   try {
-    const hospital = await hospitalModel.find()
+    // enable filter
+    const filter = {}
+    const {prefix} = req.query
+    if(prefix) filter.prefix = prefix
+    const hospital = await hospitalModel.find(filter)
     if (!hospital)
       return res.sendStatus(404).json({ msg: 'hospital not found' })
     res.json({
