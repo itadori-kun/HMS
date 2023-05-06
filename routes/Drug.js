@@ -29,15 +29,22 @@ app.route('/').post(async(req,res)=>{
 
 app.route('/').get(async(req,res)=>{
   try {
-    // enable pagination
-    const pageSize = 10
-    const page = Number(req.query.pageNumber) || 1;
-    const count = await drugModel.find({}).estimatedDocumentCount();
 
-    const drugs =  await drugModel.find()
+    let filter = {}
+    const {name, category, brand} = req.query
+    if(name) filter.name = name
+    if(category) filter.category = category
+    if(brand) filter.brand = brand
+
+    // enable pagination
+    const pageSize = Number(req.query.limit) || 15;
+    const pageNumber = Number(req.query.page) || 1;
+    const count = await drugModel.find(filter).estimatedDocumentCount();
+
+    const drugs =  await drugModel.find(filter)
     .populate('branch_id')
     .populate('pharmacy_id')
-    .skip(pageSize * (page - 1))
+    .skip(pageSize * (pageNumber - 1))
     .limit(pageSize)
 
     if(!drugs) return res.sendStatus(400).json({msg:"no drugs found"})
@@ -45,7 +52,7 @@ app.route('/').get(async(req,res)=>{
       code:200,
       msg:"drugs found successfully",
       drugs,
-      page,
+      pageNumber,
       pages: Math.ceil(count / pageSize),
       count
     })
