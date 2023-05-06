@@ -7,8 +7,7 @@ app.route('/').get(async (req, res) => {
     const record = await Medical_records.find()
     res.status(200).json({ msg: 'Records found', data: record })
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ msg: 'Failed to get info' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 
@@ -32,8 +31,7 @@ app.route('/create').post(async (req, res) => {
       .status(201)
       .json({ msg: 'Record created successfully', data: new_medical_record })
   } catch (err) {
-    console.error(err)
-    return res.status(500).json({ msg: 'Failed to create record' })
+    return res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 
@@ -68,8 +66,7 @@ app
       )
       res.status(200).json({ msg: 'Record successfully updated', data: record })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to carry out request' })
+      res.status(500).json({ err: 'Something went wrong' })
     }
   })
 
@@ -87,8 +84,7 @@ app
       const result = await record.deleteOne()
       res.status(200).json({ msg: 'Successfully deleted', data: result })
     } catch (err) {
-      console.error(err)
-      return readSync.status(500).json({ msg: 'Failed to delete record' })
+      return readSync.status(500).json({ msg: 'Something went wrong' })
     }
   })
 

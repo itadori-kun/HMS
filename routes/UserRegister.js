@@ -36,7 +36,7 @@ app.route('/user').post(async (req, res) => {
     res.status(201).json({ msg: 'New patient info created', data: new_patient })
   } catch (err) {
     console.error(err)
-    res.status(500).json({ msg: 'Failed to create new patient' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 

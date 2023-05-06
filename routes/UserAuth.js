@@ -34,7 +34,7 @@ app.route('/user').post(async (req, res) => {
       res.status(401).json({ msg: 'Invalid credentials' })
     }
   } catch (err) {
-    res.status(500).json({ msg: 'Somethinnng went wrong' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 

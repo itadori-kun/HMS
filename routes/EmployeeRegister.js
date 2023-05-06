@@ -61,8 +61,7 @@ app.route('/employee/create').post(async (req, res) => {
       .status(201)
       .json({ msg: 'New employee info created', data: new_employee })
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ msg: 'Failed to create new employee' })
+    res.status(500).json({ msg: 'Something went wrong' })
   }
 })
 

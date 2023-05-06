@@ -1,5 +1,6 @@
 const express = require('express')
 const Doctor = require('../Models/Doctors')
+const pagination = require('../utils/pagination')
 const app = express.Router()
 
 app.route('/').get(async (req, res) => {
@@ -9,11 +10,11 @@ app.route('/').get(async (req, res) => {
   if (emp_id) filter.emp_id = emp_id
   if (speciality) filter.speciality = speciality
   try {
-    const found_doctors = await Doctor.find(filter)
+    const found_doctors = await pagination(Doctor, req, filter)
     if (found_doctors.length == 0) {
       res.status(200).json({ msg: 'Record not found' })
     }
-    res.status(200).json({ msg: 'Record found', data: found_doctors })
+    res.status(200).json({ msg: 'Record found', found_doctors })
   } catch (err) {
     res.status(500).json({
       msg: 'Something went wrong'
@@ -39,8 +40,7 @@ app
         data: new_speciality
       })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to assign specialty' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
   .get(async (req, res) => {
@@ -54,8 +54,7 @@ app
       if (!doctor_info) return res.status(400).json({ msg: 'No info found' })
       res.status(200).json({ msg: "Doctor's info found", data: doctor_info })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ err: 'Failed to fetch' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
   .put(async (req, res) => {
@@ -72,8 +71,7 @@ app
         .status(200)
         .json({ msg: 'Successfully updated', data: update_specialty })
     } catch (err) {
-      console.error(err)
-      res.status(500).json({ msg: 'Failed to carry out operation' })
+      res.status(500).json({ msg: 'Something went wrong' })
     }
   })
 
