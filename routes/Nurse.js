@@ -1,4 +1,5 @@
 const express = require('express')
+const pagination = require('../utils/pagination')
 const Nurse = require('../Models/Nurse')
 const app = express.Router()
 
@@ -9,11 +10,11 @@ app.route('/').get(async (req, res) => {
   if (ward_no) filter.ward_no = ward_no
   if (patients_incharge_of) filter.patients_incharge_of = patients_incharge_of
   try {
-    const found_nurse = await Nurse.find(filter)
+    const found_nurse = await pagination(Nurse, req, filter)
     if (found_nurse.length == 0) {
       return res.status(200).json({ msg: 'Record not found' })
     }
-    res.status(200).json({ msg: 'Record found', data: found_nurse })
+    res.status(200).json({ msg: 'Record found', found_nurse })
   } catch (err) {
     res.status(500).json({ msg: 'Something went wrong' })
   }
@@ -56,7 +57,6 @@ app
         data: speciality
       })
     } catch (err) {
-      console.error(err)
       res.status(500).json({ err: 'Failed to assign' })
     }
   })
@@ -69,7 +69,6 @@ app
       if (!nurse_info) return res.status(400).json({ msg: 'No info found' })
       res.status(200).json({ msg: "Nurse's info found", data: nurse_info })
     } catch (err) {
-      console.error(err)
       res.status(500).json({ err: 'Failed to fetch' })
     }
   })
@@ -87,7 +86,6 @@ app
         .status(200)
         .json({ msg: 'Successfully updated', data: update_specialty })
     } catch (err) {
-      console.error(err)
       res.status(500).json({ msg: 'Failed to carry out operation' })
     }
   })

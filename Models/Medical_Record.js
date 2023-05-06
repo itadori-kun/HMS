@@ -8,7 +8,7 @@ const MedicalRecordSchema = new Schema(
     symptoms: { type: String, required: true },
     treatments: { type: String, required: true },
     follow_up_info: { type: String, required: true },
-    medications: [{ type: String, ref: 'medications' }],
+    medications: [{ type: String, ref: 'medications', required: true }],
     lab: { type: String, ref: 'labs' },
     doctor: { type: String, ref: 'doctors', required: true }
   },
