@@ -35,7 +35,7 @@ app.route('/').get(async (req, res) => {
     res.json({
       code: 200,
       msg: 'all hospital',
-      hospital
+      data:hospital
     })
   } catch (err) {
     res.status(500).send(err)
@@ -61,7 +61,7 @@ app
       res.json({
         code: 200,
         msg: 'hospital updated successfully',
-        hospital
+        data:hospital
       })
     } catch (error) {
       return res.json(error)
@@ -101,7 +101,7 @@ app
       return res.json({
         code: 200,
         msg: 'single hospital found',
-        hospital
+        data:hospital
       })
     } catch (error) {
       return res.json(error)

@@ -51,7 +51,7 @@ app.route('/').get(async(req,res)=>{
     res.json({
       code:200,
       msg:"drugs found successfully",
-      drugs,
+      data:drugs,
       pageNumber,
       pages: Math.ceil(count / pageSize),
       count
@@ -70,7 +70,7 @@ const drug = await drugModel.findOneAndUpdate({_id:req.params.id}, req.body, {ne
 res.json({
   code:200,
   msg:"drug updated successfully",
-  drug
+  data:drug
 })
 })
 
@@ -81,7 +81,7 @@ res.json({
   res.json({
     code:200,
     msg:"drug found successfully",
-    drug
+    data:drug
   })
 })
 

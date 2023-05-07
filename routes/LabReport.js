@@ -2,7 +2,8 @@ const express = require('express');
 const app = express.Router();
 const cloudinary = require('../utils/cloudinary');
 const fileupload = require('express-fileupload');
-const labReportModel = require('../Models/Lab_Reports')
+const labReportModel = require('../Models/Lab_Reports');
+const LabReport = require('../Models/Lab_Reports');
 
 app.use(fileupload({
   useTempFiles: true,
@@ -102,10 +103,9 @@ app.route('/:id')
         msg: "lab report not found",
         code: 404
       })
-
-      if(!req.body.attarchment){
+      if(!req.files.image){
         let report_update = { ...lab_report._doc, ...req.body }
-        console.log(report_update);
+        // console.log(report_update);
         lab_report.overwrite(report_update)
         await lab_report.save()
   
@@ -115,11 +115,26 @@ app.route('/:id')
         })
       }
       else{
-        
-      }
+      const file = req.files.image
+      const result = await cloudinary.uploader.upload(file.tempFilePath, {
+        public_id: `${Date.now()}`,
+        resource_type: "auto",
+        folder: 'labUploads'
+      })
 
-      
+      let reports_updates = await labReportModel.findByIdAndUpdate({_id:req.params.id}, {attarchment: result.url,
+        lab_id: req.body.lab_id,
+        description: req.body.description,
+        patient_id: req.body.patient_id,
+       emp_id: req.body.emp_id
+      }, {new: true})
+      res.json({
+        code: 200,
+        msg:"lab report and attarchment updated successfully",
+        data:reports_updates
+      })
     }
+  }
     catch (err) {
       console.log(err);
 
