@@ -135,10 +135,10 @@ app.route('/:id')
       })
     }
   }
-    catch (err) {
+    catch (error) {
       console.log(err);
 
-      res.status(500).send(err)
+      res.status(500).send(error)
     }
   })
 module.exports = app
