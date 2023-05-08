@@ -111,7 +111,8 @@ app.route('/:id')
   
         res.json({
           msg: "lab report updated ",
-          data: lab_report
+          data: lab_report,
+          code:200
         })
       }
       else{
