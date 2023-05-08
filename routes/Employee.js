@@ -18,11 +18,8 @@ app.route('/').get(async (req, res) => {
 
   try {
     const employees = await pagination(Employee, req, filter)
-    if (employees.length == 0) {
-      return res.status(200).json({ msg: 'Record not found' })
-    } else if (!employees.length == 0) {
-      return res.status(200).json({ msg: 'Request successful', employees })
-    }
+
+    res.status(200).json({ msg: 'Request successful', employees })
   } catch (err) {
     res.status(500).json({ msg: 'Something went wrong' })
   }
