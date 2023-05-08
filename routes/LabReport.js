@@ -132,20 +132,21 @@ app.route("/:id").put(async (req, res) => {
     if (!lab_report)
       return res.json({
         msg: "lab report not found",
-        code: 404,
-      });
-    if (!req.files.image) {
-      let report_update = { ...lab_report._doc, ...req.body };
-      // console.log(report_update);
-      lab_report.overwrite(report_update);
-      await lab_report.save();
-
-      res.json({
-        msg: "lab report updated ",
-        data: lab_report,
-      });
-    } else {
-      const file = req.files.image;
+        code: 404
+      })
+      if(!req.files.image){
+        let report_update = { ...lab_report._doc, ...req.body }
+        // console.log(report_update);
+        lab_report.overwrite(report_update)
+        await lab_report.save()
+  
+        res.json({
+          msg: "lab report updated ",
+          data: lab_report
+        })
+      }
+      else{
+      const file = req.files.image
       const result = await cloudinary.uploader.upload(file.tempFilePath, {
         public_id: `${Date.now()}`,
         resource_type: "auto",
