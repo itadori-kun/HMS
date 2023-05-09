@@ -8,9 +8,32 @@ const PORT = 3001
 
 // Setting up the Mongodb connection
 const DBConnection = require('./config/DBConnection')
-
+const passport=require('passport')
 // calling the DATABASE
+ var userProfile
+
+ 
 DBConnection()
+passport.serializeUser(function(user,cb){
+  cb(null,user)
+})
+
+passport.deserializeUser(function(user,cb){
+  cb(null,user)
+})
+
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "https://crg3lr-3000.csb.app/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+      userProfile=profile;
+      return done(null, userProfile);
+  }
+));
 
 // built in middleware to handle urlencoded form-dara
 app.use(express.urlencoded({ extended: true, limit: '100mb' }))
