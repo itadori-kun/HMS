@@ -2,7 +2,6 @@ const express = require('express')
 const pagination = require('../utils/pagination')
 const Nurse = require('../Models/Nurse')
 const Employee = require('../Models/Employee')
-const { clearCache } = require('ejs')
 const app = express.Router()
 
 app.route('/').get(async (req, res) => {
