@@ -11,9 +11,7 @@ app.route('/').get(async (req, res) => {
   if (speciality) filter.speciality = speciality
   try {
     const found_doctors = await pagination(Doctor, req, filter)
-    if (found_doctors.length == 0) {
-      res.status(200).json({ msg: 'Record not found' })
-    }
+
     res.status(200).json({ msg: 'Record found', found_doctors })
   } catch (err) {
     res.status(500).json({
