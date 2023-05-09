@@ -8,10 +8,12 @@ const app = express.Router()
 // get all patient from the patient collection in the database
 app.route('/').get(async (req, res) => {
   let filter = {}
-  const { first_name, last_name, gender } = req.query
+  const { first_name, last_name, gender, phone, email } = req.query
   if (first_name) filter.first_name = first_name
   if (last_name) filter.last_name = last_name
   if (gender) filter.gender = gender
+  if (phone) filter.phone = phone
+  if (email) filter.email = email
 
   try {
     let patients = await pagination(Patient, req, filter)
@@ -55,8 +57,8 @@ app
     if (!req?.params?.id) {
       return res.status(400).json({ msg: 'Bad request sent' })
     }
-    if ( req.body.password ) {
-      return res.status(401).json({msg:'Unauthorized'})
+    if (req.body.password) {
+      return res.status(401).json({ msg: 'Unauthorized' })
     }
     // Handle error incase wrong id is passed
 
