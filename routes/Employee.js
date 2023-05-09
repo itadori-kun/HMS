@@ -9,13 +9,15 @@ const app = express.Router()
 
 app.route('/').get(async (req, res) => {
   let filter = {}
-  const { role, hospital, branch, department, status, staff_type } = req.query
+  const { role, hospital, branch, department, status, staff_type, email } =
+    req.query
   if (role) filter.role = role
   if (hospital) filter.hospital = hospital
   if (branch) filter.branch = branch
   if (department) filter.department = department
   if (status) filter.status = status
   if (staff_type) filter.staff_type = staff_type
+  if (email) filter.email = email
 
   try {
     const employees = await pagination(Employee, req, filter)
