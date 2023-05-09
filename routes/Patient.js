@@ -1,6 +1,7 @@
 const express = require('express')
 const pagination = require('../utils/pagination')
 const Patient = require('../Models/Patient')
+const bcrypt = require('bcrypt')
 const app = express.Router()
 
 // get all patient route
@@ -22,6 +23,30 @@ app.route('/').get(async (req, res) => {
 
 // Single patient route
 
+// hash new password
+app.route('/:id/pwd').put(async (req, res) => {
+  if (!req?.params?.id) {
+    return res.status(400).json({ msg: 'Bad request sent' })
+  }
+  const password = req.body.password
+  const patient = await Patient.findOne({ _id: req?.params?.id }).exec()
+  if (!patient) return res.status(400).json({ msg: 'Patient not found' })
+
+  try {
+    const salt = await bcrypt.genSalt(10)
+    const hashed_password = await bcrypt.hash(password, salt)
+    const update_patient = await Patient.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { password: hashed_password } },
+      { new: true }
+    )
+    res.status(200).json({ msg: 'Updated successfully', data: update_patient })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ msg: 'Something went wrong' })
+  }
+})
+
 app
   .route('/:id')
   // update patient info in the patient collection in the database
@@ -29,6 +54,9 @@ app
   .put(async (req, res) => {
     if (!req?.params?.id) {
       return res.status(400).json({ msg: 'Bad request sent' })
+    }
+    if ( req.body.password ) {
+      return res.status(401).json({msg:'Unauthorized'})
     }
     // Handle error incase wrong id is passed
 
