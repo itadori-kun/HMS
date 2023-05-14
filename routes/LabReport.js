@@ -5,6 +5,7 @@ const fileupload = require("express-fileupload");
 const labReportModel = require("../Models/Lab_Reports");
 const LabReport = require("../Models/Lab_Reports");
 const PDFDocument = require("pdfkit");
+const fs = require('fs');
 app.use(
   fileupload({
     useTempFiles: true,
@@ -88,41 +89,36 @@ app
   });
 
 app.route("/download_pdf").get(async (req, res) => {
-  // fetch data from database
-  const report = await labReportModel.find().toArray((err, data) => {
-    if (err) {
-      console.error("Failed to fetch data from MongoDB:", err);
-      res.status(500).send("Failed to fetch data from MongoDB");
-      return;
-    }
-    // Create PDF document
-    const doc = new PDFDocument();
+  try {
+    const labReport = await labReportModel.find().toArray();
+  // Create a new PDF document
+  const doc = new PDFDocument();
+  // Generate the PDF content from the JSON data
+  doc.pipe(fs.createWriteStream('labReport.pdf'));
+  doc.font('Helvetica-Bold').fontSize(24).text('JSON to PDF Conversion', { align: 'center' });
+  doc.font('Helvetica').fontSize(12).text(JSON.stringify(labReport, null, 2));
 
-    // Add JSON data to PDF
-    doc.fontSize(12).text(JSON.stringify(data, null, 2));
+  // Finalize the PDF and close the write stream
+  doc.end();
 
-    // Generate a random file name
-    const fileName = `data-${Date.now()}.pdf`;
+  // Set the response headers to trigger the file download
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename=labReport.pdf');
 
-    const filePath = `./temp/${fileName}`;
+   // Stream the file to the response
+   const fileStream = fs.createReadStream('labReport.pdf');
+   fileStream.pipe(res);
 
-    // Pipe PDF document to a file
-    doc.pipe(fs.createWriteStream(filePath));
-    doc.end();
-
-    res.download(filePath, fileName, (err) => {
-      if (err) {
-        console.error("Failed to download PDF:", err);
-      }
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.error("Failed to delete PDF file:", err);
-        }
-      });
-    });
+  if(fileStream) return res.json({
+    code:200,
+    msg:"labreport successfully downloaded"
+  })
+    
+  } catch (error) {
+    console.log(error)
+  }
   });
-  if (!report) return res.sendStatus(404).jsonp({ msg: "not found" });
-});
+
 app.route("/:id").put(async (req, res) => {
   if (!req.body)
     return res.json({
