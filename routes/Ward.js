@@ -3,8 +3,14 @@ const app = express.Router()
 const Ward = require('../Models/Wards')
 
 app.route('/').get(async (req, res) => {
+  let filter={}
+  const{branch_id,name,type,total_bed}=req.query
+  if(branch_id)filter.branch_id=branch_id
+  if(name)filter.name=name
+  if(type)filter.type=type
+  if(total_bed)filter.total_bed=total_bed
   try {
-    const get_all_wards = await Ward.find()
+    const get_all_wards = await Ward.find(filter).populate("branch_id").sort()
     if (!get_all_wards)
       return res.json({
         code: 404,
