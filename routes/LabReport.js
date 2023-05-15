@@ -4,8 +4,8 @@ const cloudinary = require("../utils/cloudinary");
 const fileupload = require("express-fileupload");
 const labReportModel = require("../Models/Lab_Reports");
 const LabReport = require("../Models/Lab_Reports");
-const PDFDocument = require("pdfkit");
 const fs = require('fs');
+const {Parser} = require('json2csv')
 app.use(
   fileupload({
     useTempFiles: true,
@@ -88,35 +88,34 @@ app
     }
   });
 
-app.route("/download_pdf").get(async (req, res) => {
-  try {
-    const labReport = await labReportModel.find().toArray();
-  // Create a new PDF document
-  const doc = new PDFDocument();
-  // Generate the PDF content from the JSON data
-  doc.pipe(fs.createWriteStream('labReport.pdf'));
-  doc.font('Helvetica-Bold').fontSize(24).text('JSON to PDF Conversion', { align: 'center' });
-  doc.font('Helvetica').fontSize(12).text(JSON.stringify(labReport, null, 2));
+app.route("/download_report").get(async (req, res) => {
+  const json2csvParser = new Parser();
+    try {
+     const labreport = await labReportModel.find()
+     .populate('lab_id')
+     .populate('patient_id')
+     .populate("emp_id")
+     ;
 
-  // Finalize the PDF and close the write stream
-  doc.end();
+     if(!labreport) return res.sendStatus(404).json({msg: "No lab report found"})
+     const csv = json2csvParser.parse(labreport)
 
-  // Set the response headers to trigger the file download
-  res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename=labReport.pdf');
-
-   // Stream the file to the response
-   const fileStream = fs.createReadStream('labReport.pdf');
-   fileStream.pipe(res);
-
-  if(fileStream) return res.json({
-    code:200,
-    msg:"labreport successfully downloaded"
-  })
-    
-  } catch (error) {
-    console.log(error)
-  }
+    //  save the csv to a folder 
+     fs.writeFile("labreport.csv",labreport.toString(), function(err){
+      if(err) {
+        throw err;
+      }
+      console.log("labreport saved ")
+      res.json({
+        msg:"lab report saved"
+      })
+     })
+    //  console.log(csv)
+    res.attachment('labreport.csv')
+    res.send(csv)
+    } catch (error) {
+      console.log(error)
+    }
   });
 
 app.route("/:id").put(async (req, res) => {
