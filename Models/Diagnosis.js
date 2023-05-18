@@ -6,8 +6,8 @@ const diagnosisSchema = mongoose.Schema({
   date_of_diagnosis:{type:Date},
   symptoms: {type:String, required:true},
   diagnosis: {type:String, required:true},
-  doctor_name: {type:String, required:true},
-  doctor_signature:{type:String},
+  doctor_name: {type:String, ref:'employees', required:true},
+  doctor_initials:{type:String, required:true}
 })
 
 const Diagnosis = mongoose.model("diagnosis", diagnosisSchema);
