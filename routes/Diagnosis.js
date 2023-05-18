@@ -44,7 +44,7 @@ app
       return res.json({ code: 404, msg: "diagnosis does not exist" });
     res.json({
       code: 200,
-      msg: "diagnosis updated successfully",
+      msg: "diagnosis updated successful",
       data: diagnostic,
     });
   })
