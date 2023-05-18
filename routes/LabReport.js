@@ -107,7 +107,7 @@ app.route("/download_report").get(async (req, res) => {
       }
       console.log("labreport saved ")
       res.json({
-        msg:"lab report saved"
+        msg:"lab report saved successfully"
       })
      })
     //  console.log(csv)
