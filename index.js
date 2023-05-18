@@ -34,6 +34,7 @@ passport.use(new GoogleStrategy({
       return done(null, userProfile);
   }
 ));
+app.use('/img',express.static('img'))
 
 // built in middleware to handle urlencoded form-dara
 app.use(express.urlencoded({ extended: true, limit: '100mb' }))
