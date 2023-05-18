@@ -8,16 +8,17 @@ const app = express.Router()
 // get all patient from the patient collection in the database
 app.route('/').get(async (req, res) => {
   let filter = {}
-  const { first_name, last_name, gender, phone, email } = req.query
+  const { first_name, last_name, gender, phone, email, card_no } = req.query
   if (first_name) filter.first_name = first_name
   if (last_name) filter.last_name = last_name
   if (gender) filter.gender = gender
   if (phone) filter.phone = phone
   if (email) filter.email = email
+  if (card_no) filter.card_no = card_no
 
   try {
     let patients = await pagination(Patient, req, filter)
-    res.status(200).json({ msg: 'Request successful', patients })
+    res.status(200).json(patients)
   } catch (err) {
     res.status(500).json({ msg: 'Something went wrong' })
   }

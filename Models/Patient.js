@@ -13,10 +13,13 @@ const PatientSchema = new Schema(
     d_o_b: { type: Date, required: true },
     phone: [{ type: String, required: true }],
     address: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
     occupation: { type: String, required: true },
     type_of_patient: { type: String },
     allergies: { type: String },
     insurance: { type: String },
+    status: { type: String, default: 'Outpatient' },
     vitals: {
       blood_group: {
         type: String,
