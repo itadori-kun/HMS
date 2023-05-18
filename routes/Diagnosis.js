@@ -12,7 +12,7 @@ app.route("/").post(async (req, res) => {
     symptoms: req.body.symptoms,
     diagnosis: req.body.diagnosis,
     doctor_name: req.body.doctor_name,
-    doctor_signature: req.body.doctor_signature,
+    doctor_initials: req.body.doctor_initials,
   });
   const new_diagnosis = await diagnosis.save();
   res.json({
@@ -22,7 +22,7 @@ app.route("/").post(async (req, res) => {
   });
 });
 app.route("/").get(async (req, res) => {
-  const diagnosis = await diagnosisModel.find().exec();
+  const diagnosis = await diagnosisModel.find().populate('doctor_name')
   if (!diagnosis) return res.json({ code: 400, msg: "no diagnostic found" });
   res.json({
     code: 200,
@@ -60,7 +60,7 @@ app
       data:diagnosis
     })
   })
-  
+
   .delete(async (req, res) => {
     if (!req?.params?.id) return res.json({ code: 404, msg: "bad request" });
     const diagnosis = await diagnosisModel.findOneAndDelete({
