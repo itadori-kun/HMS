@@ -4,7 +4,7 @@ const prescriptionSchema = mongoose.Schema({
   last_name:{type:String, required:true},
   patient_age:{type:String, required:true},
   date_of_diagnosis:{type:Date},
-  drug_id:{type:String, ref:"drugs", required:true},
+  drug_id:{type:String, required:true},
   strength:{type:String, required:true},
   frequency:{type:String, required:true},
   notes:{type:String, required:true},
