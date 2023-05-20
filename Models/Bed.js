@@ -6,6 +6,9 @@ const BedSchema=mongoose.Schema({
 	ward_id:{
         type:Schema.Types.ObjectId,ref:"wards",required:true
     },
+  patient:{
+        type:Schema.Types.ObjectId,ref:"patients"
+    },
 branch_id:{
     type:Schema.Types.ObjectId,ref:"branches",required:true
 },
