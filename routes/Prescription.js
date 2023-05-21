@@ -77,7 +77,6 @@ app.route('/:id')
     .populate({path:'doctor_name', select:['first_name', 'last_name', 'phone']})
 
     if(!prescription) return res.json({code:404, msg:"prescription not found"})
-
     res.json({
       code:200,
       msg:"prescription found successfully",
@@ -88,6 +87,7 @@ app.route('/:id')
     return res.json(error.message)
   }
 })
+
 .delete(async(req,res)=>{
   if(!req?.params?.id) return res.json({code:404, msg:"bad request"})
   const prescription = await prescriptionModel.findOneAndDelete({_id:req.params.id}).exec()
