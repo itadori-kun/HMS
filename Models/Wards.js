@@ -8,6 +8,7 @@ const WardSchema=mongoose.Schema({
 	type  :{
         type:String,required:true
     },
+    bed:[{type:Schema.Types.ObjectId,ref:"beds"}],
 	branch_id:{
         type:Schema.Types.ObjectId,ref:"branches",required:true
     },

@@ -10,7 +10,7 @@ app.route('/').get(async (req, res) => {
   if(type)filter.type=type
   if(total_bed)filter.total_bed=total_bed
   try {
-    const get_all_wards = await Ward.find(filter).populate("branch_id").sort()
+    const get_all_wards = await Ward.find(filter).populate("branch_id").populate("bed").sort()
     if (!get_all_wards)
       return res.json({
         code: 404,

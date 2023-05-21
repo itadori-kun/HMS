@@ -1,10 +1,19 @@
 const express=require('express')
 const app=express.Router()
 const Bed= require('../Models/Bed')
+const Ward = require('../Models/Wards')
 
 app.route('/').get(async(req,res)=>{
     try{
-    const get_all_beds= await Bed.find()
+        let filter={}
+        const {ward_id,patient,branch_id,bed_no,type,status}=req.query
+        if(ward_id) filter.ward_id=ward_id
+        if(patient)filter.patient=patient
+        if(branch_id)filter.branch_id=branch_id
+        if(bed_no)filter.bed_no=bed_no
+        if(type)filter.type=type
+        if(status)filter.status=status
+    const get_all_beds= await Bed.find(filter).populate("ward_id").populate("branch_id").populate("patient").sort()
     if(!get_all_beds)return res.json({
         msg:"Beds  not exist ",
         code:404,
@@ -33,14 +42,27 @@ app.route('/create').post(async(req,res)=>{
     })
 
     try{
-        const found_bed_no= await Bed.findOne({"bed_no":req.body.bed_no})
+        const found_bed_no= await Bed.findOne({"bed_no":req.body.bed_no})||await Bed.findOne({"patient":req.body.patient})
+
+       
+    //    console.log("found",found_bed_no)
 if(found_bed_no)return res.json({
-    msg:"bed already exist, use a new bed number"
+    msg:"bed already exist or in use, use a new bed number"
 })
 
 const bed=   new Bed(req.body)
 
 await bed.save()
+
+const update_ward_info= await Ward.findByIdAndUpdate(req.body.ward_id,{
+    $push:{bed:bed._id}
+})
+//console.log("updated info",update_ward_info)
+if(!bed) return res.json({
+    msg:"failed to add bed",
+    code:401
+})
+
 res.json({
     msg:"successful",
     data:bed,
