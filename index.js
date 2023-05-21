@@ -73,6 +73,7 @@ app.use('/medication', require('./routes/Medications'))
 app.use('/forgotPassword', require('./routes/ForgotPsswd'))
 app.use('/diagnosis', require('./routes/Diagnosis'))
 app.use('/prescription', require('./routes/Prescription'))
+app.use('/consultation', require('./routes/Consultation'))
 // Mongoose connection
 
 mongoose.connection.once('open', function () {
