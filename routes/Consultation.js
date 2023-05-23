@@ -24,7 +24,7 @@ app.route("/").post(async (req, res) => {
       data: consultation,
     });
 
-  new_consultation = await consultation.save();
+ const new_consultation = await consultation.save();
   res.json({
     code: 200,
     msg: "consultation created successfully",
@@ -37,7 +37,8 @@ app.route("/").get(async (req, res) => {
     const consultation = await consultationModel
       .find()
       .populate("patient_id")
-      .populate("employees_id");
+      .populate("employees_id")
+      .populate("medication_id");
     if (!consultation) return res.json({ code: 404, msg: "no record found" });
     res.json({
       code: 200,
@@ -83,7 +84,8 @@ app
     const consultation = await consultationModel
       .findOneAndUpdate({ _id: req.params.id })
       .populate("patient_id")
-      .populate("employees_id");
+      .populate("employees_id")
+      .populate("medication_id");
     if (!consultation) return res.json({ code: 404, msg: "not found" });
     res.json({
       code: 200,
