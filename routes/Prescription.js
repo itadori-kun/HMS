@@ -6,16 +6,11 @@ app.route('/').post(async(req, res)=>{
   if(!req?.body) return res.json({code:404, msg:"Fields required"})
 
   const prescription = new prescriptionModel({
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    patient_age: req.body.patient_age,
+    patient_id: req.body.patient_id,
     date_of_diagnosis: req.body.date_of_diagnosis,
-    drug_id: req.body.drug_id,
-    strength: req.body.strength,
-    frequency: req.body.frequency,
+    prescription: req.body.prescription,
     notes: req.body.notes,
-    doctor_name: req.body.doctor_name,
-    doctor_initials: req.body.doctor_initials
+    doctor_id: req.body.doctor_id,
   })
 
   if(!prescription) return res.json({msg:"Fields not completed"})
@@ -37,8 +32,7 @@ app.route('/').get(async(req,res)=>{
     if(doctor_name) filter.doctor_name = doctor_name
     const prescription = await prescriptionModel.find(filter)
     // .populate({path:"drug_id", select:['name', 'category','price','status']})
-    .populate({path:'doctor_name', select:['first_name', 'last_name', 'phone']})
-
+    .populate({path:'patient_id', select:['first_name', 'last_name', 'phone']})
     if(!prescription) return res.json({code:404, msg:"no prescription found"})
     res.json({
       code:200,
