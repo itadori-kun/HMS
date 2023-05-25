@@ -10,8 +10,7 @@ app.route('/').post(async(req, res)=>{
     date_of_diagnosis: req.body.date_of_diagnosis,
     prescription: req.body.prescription,
     notes: req.body.notes,
-    doctor_name: req.body.doctor_name,
-    doctor_initials: req.body.doctor_initials
+    doctor_id: req.body.doctor_id,
   })
 
   if(!prescription) return res.json({msg:"Fields not completed"})
