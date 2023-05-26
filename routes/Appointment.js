@@ -8,7 +8,9 @@ app.route('/').post(async (req, res) => {
     card_no: req.body.card_no,
     physician: req.body.physician,
     notes: req.body.notes,
-    status: req.body.status
+    status: req.body.status,
+    date:req.body.date,
+    time:req.body.time
   })
   const new_appointment = await appointment.save()
   res.json({

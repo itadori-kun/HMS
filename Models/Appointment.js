@@ -10,13 +10,15 @@ const AppointmentSchema = new Schema(
       type: String,
       required: true,
       enum: ['booking', 'rescheduled', 'confirmed', 'declined', '']
-    }
+    },
+    date:{type:String,required:true},
+    time:{type:String,required:true}
   },
   { timestamps: true }
 )
 
 AppointmentSchema.pre('find', function () {
-  this.populate({ path: 'card_no', select: ['card_no'] })
+  this.populate({ path: 'card_no', select: ['card_no','first_name','last_name'] })
   this.populate({
     path: 'physician',
     populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
