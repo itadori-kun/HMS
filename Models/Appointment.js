@@ -12,7 +12,10 @@ const AppointmentSchema = new Schema(
       enum: ['booking', 'rescheduled', 'confirmed', 'declined', '']
     },
     date:{type:String,required:true},
-    time:{type:String,required:true}
+    time:{type:String,required:true},
+    doctor_seen:{type:Boolean,default:false,required:true},
+    nurse_seen:{type:Boolean,default:false,required:true},
+    payment_status:{type:Boolean,default:false,required:true}
   },
   { timestamps: true }
 )
