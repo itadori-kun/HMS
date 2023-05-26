@@ -5,10 +5,11 @@ const app = express.Router()
 
 app.route('/').get(async (req, res) => {
   let filter = {}
-  const { emp_id, branch_id, speciality } = req.query
+  const { emp_id, branch_id, speciality,status } = req.query
   if (branch_id) filter.branch_id = branch_id
   if (emp_id) filter.emp_id = emp_id
   if (speciality) filter.speciality = speciality
+  if (status) filter.status = status
   try {
     const found_doctors = await pagination(Doctor, req, filter)
 

@@ -13,7 +13,7 @@ const AppointmentSchema = new Schema(
     },
     date:{type:String,required:true},
     time:{type:String,required:true},
-    doctor_seen:{type:Boolean,default:false,required:true},
+    doctor_seen:{type:Boolean,required:true,default:false},
     nurse_seen:{type:Boolean,default:false,required:true},
     payment_status:{type:Boolean,default:false,required:true}
   },
