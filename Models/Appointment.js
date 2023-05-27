@@ -21,14 +21,14 @@ const AppointmentSchema = new Schema(
 )
 
 AppointmentSchema.pre('find', function () {
-  this.populate({ path: 'card_no', select: ['card_no','first_name','last_name'] })
+  this.populate({ path: 'card_no', select: ['card_no','first_name','last_name','gender'] })
   this.populate({
     path: 'physician',
     populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
   })
 })
 AppointmentSchema.pre('findOne', function () {
-  this.populate({ path: 'card_no', select: ['card_no'] })
+  this.populate({ path: 'card_no', select: ['card_no','first_name','last_name','gender'] })
   this.populate({
     path: 'physician',
     populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
