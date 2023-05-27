@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const AppointmentSchema = new Schema(
   {
     card_no: { type: Schema.Types.ObjectId, ref: 'patients', required: true },
-    physician: { type: Schema.Types.ObjectId, ref: 'doctors', required: true },
+    physician: { type: Schema.Types.ObjectId, ref: 'employees', required: true },
     notes: { type: String, required: true },
     status: {
       type: String,
@@ -22,16 +22,12 @@ const AppointmentSchema = new Schema(
 
 AppointmentSchema.pre('find', function () {
   this.populate({ path: 'card_no', select: ['card_no','first_name','last_name','gender'] })
-  this.populate({
-    path: 'physician',
-    populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
-  })
+  this.populate({path: 'physician',select: ['first_name', 'last_name','status'] 
+})
 })
 AppointmentSchema.pre('findOne', function () {
   this.populate({ path: 'card_no', select: ['card_no','first_name','last_name','gender'] })
-  this.populate({
-    path: 'physician',
-    populate: { path: 'emp_id', select: ['first_name', 'last_name'] }
+  this.populate({path: 'physician',select: ['first_name', 'last_name','status'] 
   })
 })
 
