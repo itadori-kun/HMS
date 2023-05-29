@@ -27,13 +27,19 @@ const PatientSchema = new Schema(
       },
       blood_pressure: { type: String },
       weight: { type: String },
-      height: { type: String }
+      height: { type: String },
+      temperature: { type: String },
+      heart_rate: { type: String },
+      respiratory_rate: { type: String },
+      pulse: { type: String }
+     
     },
     emergency_contact: {
       first_name: { type: String },
       last_name: { type: String },
       phone: [{ type: String }],
       email: { type: String }
+     
     }
   },
   { timestamps: true }

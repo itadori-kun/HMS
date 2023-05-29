@@ -7,10 +7,11 @@ const prescriptionSchema = mongoose.Schema({
       frequency: { type: String, required: true },
       name: { type: String, required: true },
       strength: { type: String, required: true },
-    }
+      duration: { type: String, required: true },
+    },
   ],
   notes: { type: String, required: true },
-  doctor_id: { type: String, ref: "employees", required: true }
+  doctor_id: { type: String, ref: "employees", required: true },
 });
 
 const Prescription = mongoose.model("prescriptions", prescriptionSchema);
