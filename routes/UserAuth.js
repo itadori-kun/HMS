@@ -27,7 +27,9 @@ app.route('/user').post(async (req, res) => {
         email: found_user.email,
         phone: found_user.phone,
         first_name: found_user.first_name,
-        last_name: found_user.last_name
+        last_name: found_user.last_name,
+        avatar: found_user.avatar,
+        gender: found_user.gender
       }
       res.status(200).json({ msg: 'Login successful', data: data })
     } else {

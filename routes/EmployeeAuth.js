@@ -35,7 +35,8 @@ app.route('/employee').post(async (req, res) => {
          department:found_user.department,
          hospital:found_user.hospital,
          status:found_user.status="available",
-         avatar:found_user.avatar
+         avatar:found_user.avatar,
+         gender:found_user.gender
       }
       res.status(200).json({ msg: 'Login successful', data: data })
     } else {
