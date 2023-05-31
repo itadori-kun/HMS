@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const prescriptionSchema = mongoose.Schema({
   patient_id: { type: String, ref: "patients", required: true },
+  card_no:{type: String, required: true},
   date_of_diagnosis: { type: Date },
   prescription: [
     {
