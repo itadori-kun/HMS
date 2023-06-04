@@ -70,8 +70,8 @@ app.route('/:id')
   try {
     if(!req?.params?.id) return res.json({code:404, msg:"bad request"})
     const prescription = await prescriptionModel.findOne({_id:req.params.id})
-    // .populate({path:"drug_id", select:['name', 'category','price','status']})
-    .populate({path:'doctor_name', select:['first_name', 'last_name', 'phone']})
+    .populate('patient_id')
+    .populate('doctor_id')
 
     if(!prescription) return res.json({code:404, msg:"prescription not found"})
     res.json({
