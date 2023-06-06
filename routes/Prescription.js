@@ -7,6 +7,7 @@ app.route('/').post(async(req, res)=>{
 
   const prescription = new prescriptionModel({
     patient_id: req.body.patient_id,
+    card_no:req.body.card_no,
     date_of_diagnosis: req.body.date_of_diagnosis,
     prescription: req.body.prescription,
     notes: req.body.notes,
@@ -26,13 +27,15 @@ app.route('/').post(async(req, res)=>{
 app.route('/').get(async(req,res)=>{
   try {
     const filter = {}
-    const {date_of_diagnosis, drug_id, doctor_name} = req.query
+    const {date_of_diagnosis, drug_id, doctor_name, card_no} = req.query
     if(date_of_diagnosis) filter.date_of_diagnosis = date_of_diagnosis
     if(drug_id) filter.drug_id = drug_id
     if(doctor_name) filter.doctor_name = doctor_name
+    if(card_no) filter.card_no = card_no
     const prescription = await prescriptionModel.find(filter)
     // .populate({path:"drug_id", select:['name', 'category','price','status']})
-    .populate({path:'patient_id', select:['first_name', 'last_name', 'phone']})
+    .populate('patient_id')
+    .populate('doctor_id')
     if(!prescription) return res.json({code:404, msg:"no prescription found"})
     res.json({
       code:200,
@@ -67,8 +70,8 @@ app.route('/:id')
   try {
     if(!req?.params?.id) return res.json({code:404, msg:"bad request"})
     const prescription = await prescriptionModel.findOne({_id:req.params.id})
-    // .populate({path:"drug_id", select:['name', 'category','price','status']})
-    .populate({path:'doctor_name', select:['first_name', 'last_name', 'phone']})
+    .populate('patient_id')
+    .populate('doctor_id')
 
     if(!prescription) return res.json({code:404, msg:"prescription not found"})
     res.json({
