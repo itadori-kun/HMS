@@ -14,8 +14,8 @@ patient_id:{
     },
 
 	discharge_date :{
-        type:Date,
-        required:true
+        type:String,
+     
     }
 
 	
