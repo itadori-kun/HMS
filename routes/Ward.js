@@ -70,7 +70,7 @@ app
       })
 
     try {
-      let ward = await Ward.findById(req.params.id)
+      let ward = await Ward.findById(req.params.id).populate("branch_id").populate("bed").sort()
       if (!ward)
         return res.json({
           msg: 'ward does not exist',
