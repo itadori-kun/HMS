@@ -15,6 +15,9 @@ branch_id:{
 	bed_no:{
         type:Number,required:true
     },
+    date_assigned:{
+type:String
+    },
 
 	type :{
         type:String

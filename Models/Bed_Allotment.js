@@ -4,7 +4,7 @@ const Schema=mongoose.Schema
 const BedSchema=mongoose.Schema({
    
 	reason_for_admission:{
-        type:String,required:true
+        type:String,
     },
 patient_id:{
     type:Schema.Types.ObjectId,ref:"patients",required:true
