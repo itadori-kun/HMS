@@ -5,7 +5,7 @@ const DrugSchema=mongoose.Schema({
     
     name:{type:String,required:true} ,
     category:{type:String,required:true},      
-    status  :{type:String,required:true},                
+    status  :{type:String,required:true, enum:['available', 'out-of-stock','not-available']},                
     brand   :{type:String,required:true},
     strength:{type:String, required:true},
     expire_date:{type:Date,required:true},                   
