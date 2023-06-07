@@ -10,7 +10,12 @@ app.route('/').get(async (req, res) => {
   if(type)filter.type=type
   if(total_bed)filter.total_bed=total_bed
   try {
-    const get_all_wards = await Ward.find(filter).populate("branch_id").populate("bed").sort()
+    const get_all_wards = await Ward.find(filter).populate("branch_id").populate({
+      path: "bed"  ,populate:{
+        path:"patient"
+      }
+     
+        }).sort()
     if (!get_all_wards)
       return res.json({
         code: 404,
@@ -70,7 +75,12 @@ app
       })
 
     try {
-      let ward = await Ward.findById(req.params.id).populate("branch_id").populate("bed").sort()
+      let ward = await Ward.findById(req.params.id).populate("branch_id").populate({
+    path: "bed"  ,populate:{
+      path:"patient"
+    }
+   
+      }).sort()
       if (!ward)
         return res.json({
           msg: 'ward does not exist',
