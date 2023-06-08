@@ -15,6 +15,9 @@ branch_id:{
 	bed_no:{
         type:Number,required:true
     },
+    current_allotment:{
+type:Schema.Types.ObjectId,ref:"bedAllotments"
+    },
     date_assigned:{
 type:String
     },

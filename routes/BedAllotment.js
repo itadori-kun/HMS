@@ -53,7 +53,8 @@ try{
 patient_id:req.body.patient_id,
 bed_id:req.body.bed_id,
 
-discharge_date:req.body.discharge_date
+discharge_date:req.body.discharge_date,
+date_assigned:req.body.date_assigned
     });
 
 if(!bed_allotment) return res.json({

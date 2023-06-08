@@ -12,6 +12,9 @@ patient_id:{
 	bed_id:{
         type:Schema.Types.ObjectId,ref:"beds",required:true
     },
+    date_assigned:{
+        type:String
+    },
 
 	discharge_date :{
         type:String,

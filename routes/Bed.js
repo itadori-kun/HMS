@@ -13,7 +13,10 @@ app.route('/').get(async(req,res)=>{
         if(bed_no)filter.bed_no=bed_no
         if(type)filter.type=type
         if(status)filter.status=status
-    const get_all_beds= await Bed.find(filter).populate("ward_id").populate("branch_id").populate("patient").sort()
+    const get_all_beds= await Bed.find(filter).populate("ward_id").populate("branch_id").populate("patient").populate({
+        path:"current_allotment",select:["reason_for_admission", "patient_id","date_assigned","discharge_date"
+        ]
+    }).sort()
     if(!get_all_beds)return res.json({
         msg:"Beds  not exist ",
         code:404,
@@ -42,7 +45,7 @@ app.route('/create').post(async(req,res)=>{
     })
 
     try{
-        const found_bed_no= await Bed.findOne({"bed_no":req.body.bed_no})||await Bed.findOne({"patient":req.body.patient})
+        const found_bed_no= await Bed.findOne({"bed_no":req.body.bed_no})
 
        
     //    console.log("found",found_bed_no)
@@ -87,7 +90,10 @@ app.route('/:id')
     })
 
     try{
-        let bed= await Bed.findById(req.params.id)
+        let bed= await Bed.findById(req.params.id).populate({
+            path:"current_allotment",select:["reason_for_admission", "patient_id","date_assigned","discharge_date"
+            ]
+        })
         if(!bed) return res.json({
                 code:404,
                 msg:"bed does not exist"
