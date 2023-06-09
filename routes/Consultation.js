@@ -33,9 +33,22 @@ app.route("/").post(async (req, res) => {
 });
 
 app.route("/").get(async (req, res) => {
+  const{patient_id,
+    employees_id,
+    payment_status,
+      prescription,
+    doctor_seen,
+    nurse_seen}=req.query
+    let filter={}
+if(patient_id)filter.patient_id=patient_id
+    if(employees_id) filter.employees_id=employees_id
+    if(payment_status) filter.payment_status=payment_status
+    if(prescription) filter.prescription=prescription
+    if(doctor_seen) filter.doctor_seen=doctor_seen
+    if(nurse_seen) filter.nurse_seen=nurse_seen
   try {
     const consultation = await consultationModel
-      .find()
+      .find(filter)
       .populate("patient_id")
       .populate("employees_id")
       .populate("medication_id");
