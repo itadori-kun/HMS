@@ -14,6 +14,8 @@ app.route('/').post(async(req,res)=>{
     strength: req.body.strength,
     quantity: req.body.quantity,
     expire_date: req.body.expire_date,
+    batch_no: req.body.batch_no,
+    item_code: req.body.item_code,
     price: req.body.price,
     pharmacy_id: req.body.pharmacy_id,
     branch_id: req.body.branch_id
