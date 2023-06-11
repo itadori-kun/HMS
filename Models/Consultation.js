@@ -8,7 +8,7 @@ const consultationSchema = mongoose.Schema({
   medication_id:{type:String},
   doctor_seen:{type:Boolean,default:false,required:true},
   nurse_seen:{type:Boolean,default:false,required:true}
-})
+},{timestamps:true})
 
 const Consultation = mongoose.model('consultations', consultationSchema)
 
