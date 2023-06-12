@@ -76,6 +76,8 @@ app.use('/diagnosis', require('./routes/Diagnosis'))
 app.use('/prescription', require('./routes/Prescription'))
 app.use('/consultation', require('./routes/Consultation'))
 app.use('/bedAllotment', require('./routes/BedAllotment'))
+app.use('/notification',require('./routes/Notification'))
+app.use('/attendance',require('./routes/Attendance'))
 // Mongoose connection
 
 mongoose.connection.once('open', function () {
