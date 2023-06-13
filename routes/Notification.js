@@ -41,11 +41,12 @@ app.route('/')
     
 
 .get(async(req,res)=>{
-    const{sender,reciever,info}=req.query
+    const{sender,reciever,info,seen}=req.query
 let filter={}
 if(sender)filter.sender=sender
 if(reciever)filter.reciever=reciever
 if(info)filter.info=info
+if(seen)filter.seen=seen
 
 
 try{
