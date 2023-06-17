@@ -29,7 +29,13 @@ app.route('/user').post(async (req, res) => {
         first_name: found_user.first_name,
         last_name: found_user.last_name,
         avatar: found_user.avatar,
-        gender: found_user.gender
+        gender: found_user.gender,
+        address:found_user.address,
+        city:found_user.city,
+        state:found_user.state,
+        d_o_b:found_user.d_o_b,
+        occupation:found_user.occupation
+       
       }
       res.status(200).json({ msg: 'Login successful', data: data })
     } else {
