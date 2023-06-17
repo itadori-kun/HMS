@@ -62,7 +62,7 @@ app.route('/').get(async(req,res)=>{
     })
   } catch (error) {
     console.log(error)
-    return res.sendStatus(500).json(error)
+    return res.json(error)
   }
 })
 
