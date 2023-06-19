@@ -34,7 +34,8 @@ app.route('/user').post(async (req, res) => {
         city:found_user.city,
         state:found_user.state,
         d_o_b:found_user.d_o_b,
-        occupation:found_user.occupation
+        occupation:found_user.occupation,
+        status:found_user.status
        
       }
       res.status(200).json({ msg: 'Login successful', data: data })
