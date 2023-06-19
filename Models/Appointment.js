@@ -15,7 +15,18 @@ const AppointmentSchema = new Schema(
     time:{type:String,required:true},
     doctor_seen:{type:Boolean,required:true,default:false},
     nurse_seen:{type:Boolean,default:false,required:true},
-    payment_status:{type:Boolean,default:false,required:true}
+    payment_status:{type:Boolean,default:false,required:true},
+    patient_status:{type:String,
+      default:false,required:true,
+      enum: [ 'rescheduled', 'confirmed', 'declined'],
+      default:"confirmed"
+    },
+    patient_note:{
+      type:String
+    },
+    patient_rescheduled_date:{
+      type:String
+    }
   },
   { timestamps: true }
 )
