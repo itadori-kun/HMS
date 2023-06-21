@@ -6,6 +6,7 @@ const pharmacyModel = require('../Models/Pharmacy')
 
 app.route('/').post(async(req,res)=>{
   if(!req?.body) return res.sendStatus(400).json({msg:"bad request"})
+ try {
   const drug = new drugModel({
     name: req.body.name,
     category: req.body.category,
@@ -29,6 +30,9 @@ app.route('/').post(async(req,res)=>{
     msg:"drug created successfully",
     drug
   })
+ } catch (error) {
+  console.log(error)
+ }
 })
 
 app.route('/').get(async(req,res)=>{
@@ -51,7 +55,7 @@ app.route('/').get(async(req,res)=>{
     .skip(pageSize * (pageNumber - 1))
     .limit(pageSize)
 
-    if(!drugs) return res.sendStatus(400).json({msg:"no drugs found"})
+    if(!drugs) return res.json({msg:"no drugs found", code:400})
     res.json({
       code:200,
       msg:"drugs found successfully",
