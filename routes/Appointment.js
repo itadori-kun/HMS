@@ -19,7 +19,8 @@ app.route('/').post(async (req, res) => {
   payment_status:req.body.payment_status,
   patient_status:req.body.patient_status,
  patient_note:req.body.patient_note,
-patient_rescheduled_date:req.body.patient_rescheduled_date
+patient_rescheduled_date:req.body.patient_rescheduled_date,
+patient_rescheduled_time:req.body.patient_rescheduled_time
   })
   const new_appointment = await appointment.save()
   res.json({

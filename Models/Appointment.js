@@ -26,6 +26,9 @@ const AppointmentSchema = new Schema(
     },
     patient_rescheduled_date:{
       type:String
+    },
+    patient_rescheduled_time:{
+type:String
     }
   },
   { timestamps: true }

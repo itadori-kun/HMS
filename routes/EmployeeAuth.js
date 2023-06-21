@@ -2,7 +2,7 @@ const express = require('express')
 const Employee = require('../Models/Employee')
 const bcrypt = require('bcrypt')
 const app = express.Router()
-
+const Attendance=require('../Models/Attendance')
 // Employee route
 app.route('/employee').post(async (req, res) => {
   let found_user = ''
@@ -38,7 +38,22 @@ app.route('/employee').post(async (req, res) => {
          avatar:found_user.avatar,
          gender:found_user.gender
       }
-      res.status(200).json({ msg: 'Login successful', data: data })
+      const attendance=   new Attendance({
+        emp_id:found_user._id,
+sign_in: new Date()
+
+      })
+      const newAttendance= await attendance.save()
+
+      if(newAttendance){
+        res.status(200).json({ msg: 'Login successful', data: data,attendanceStatus:newAttendance,
+        attendance:" attendance registered"
+      })
+      }
+      else{
+        res.status(200).json({ msg: 'Login successful ', data: data, attendance:"failed to register"})
+      }
+   
     } else {
       res.status(401).json({ msg: 'Invalid credentials' })
     }
@@ -46,5 +61,7 @@ app.route('/employee').post(async (req, res) => {
     res.status(500).json({ msg: 'Something went wrong' })
   }
 })
+
+
 
 module.exports = app
