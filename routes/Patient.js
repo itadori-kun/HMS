@@ -4,6 +4,61 @@ const Patient = require('../Models/Patient')
 const bcrypt = require('bcrypt')
 const app = express.Router()
 
+
+
+const cloudinary = require("../utils/cloudinary");
+const fileupload = require("express-fileupload");
+app.use(
+  fileupload({
+    useTempFiles: true,
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
+
+// update patient avatar
+app.route("/pfp/:id").put(async (req, res) => {
+  if (!req.params.id)
+    return res.json({
+      code: 401,
+      msg: "something went wrong",
+    });
+  try {
+    // if (!req.body.avatar)
+    //   return res.json({
+    //     msg: "bad request",
+    //     code: 401,
+    //   })
+
+    const patient = await Patient.findById(req.params.id);
+    if (!patient)
+      return res.json({
+        code: 404,
+        msg: "something went wrong",
+      });
+    const avatar = req.files.avatar;
+    const result = await cloudinary.uploader.upload(avatar.tempFilePath, {
+      public_id: `${Date.now()}`,
+      resource_type: "auto",
+      folder: "userAvatars",
+    });
+   // console.log(result);
+    patient.avatar = result.url;
+
+    const updatePfp = { ...patient._doc, ...req.body };
+    //console.log(updatePfp);
+    patient.overwrite(updatePfp);
+    patient.save();
+    res.json({
+      code:200,
+      msg:"successful",
+      data:patient
+    })
+  } catch (err) {
+    res.status(500).send(err);
+    console.log(err);
+  }
+});
+
 // get all patient route
 // get all patient from the patient collection in the database
 app.route('/').get(async (req, res) => {

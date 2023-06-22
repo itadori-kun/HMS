@@ -37,11 +37,11 @@ app.route("/pfp/:id").put(async (req, res) => {
       resource_type: "auto",
       folder: "userAvatars",
     });
-    console.log(result);
+    //console.log(result);
     employee.avatar = result.url;
 
     const updatePfp = { ...employee._doc, ...req.body };
-    console.log(updatePfp);
+   // console.log(updatePfp);
     employee.overwrite(updatePfp);
     employee.save();
     res.json({
