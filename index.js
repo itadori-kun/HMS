@@ -78,6 +78,7 @@ app.use('/consultation', require('./routes/Consultation'))
 app.use('/bedAllotment', require('./routes/BedAllotment'))
 app.use('/notification',require('./routes/Notification'))
 app.use('/attendance',require('./routes/Attendance'))
+app.use('/api/checkout', require('./routes/Checkout'))
 // Mongoose connection
 
 mongoose.connection.once('open', function () {

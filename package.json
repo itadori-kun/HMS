@@ -34,7 +34,8 @@
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.6.0",
     "passport-google-oauth": "^2.0.0",
-    "pdfkit": "^0.13.0"
+    "pdfkit": "^0.13.0",
+    "stripe": "^12.9.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
