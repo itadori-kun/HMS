@@ -39,7 +39,7 @@ app.route("/pfp/:id").put(async (req, res) => {
     const result = await cloudinary.uploader.upload(avatar.tempFilePath, {
       public_id: `${Date.now()}`,
       resource_type: "auto",
-      folder: "userAvatars",
+      folder: "PatientsAvatars",
     });
    // console.log(result);
     patient.avatar = result.url;
