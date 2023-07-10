@@ -35,9 +35,10 @@ app.route("/").get(async (req, res) => {
     // })
   } catch (err) {
     console.log(err);
-    res.status(500).send(err);
     res.json({
+      code: 500,
       msg: "failed to retrieve pharmacy",
+      err: err,
     });
   }
 });
